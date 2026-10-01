@@ -1,0 +1,29 @@
+{
+  "name": "astro-backend",
+  "version": "1.0.0",
+  "description": "Backend API for French astrology platform - AstroFrance",
+  "main": "src/server.js",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:push": "prisma db push",
+    "db:seed": "node prisma/seed.js",
+    "db:studio": "prisma studio",
+    "db:reset": "prisma migrate reset"
+  },
+  "keywords": [
+    "astrology",
+    "horoscope",
+    "api",
+    "french"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^3.1.14",
+    "prisma": "^8.0.0-rc.19"
+  }
+}

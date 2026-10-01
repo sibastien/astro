@@ -1,0 +1,240 @@
+// ─────────────────────────────────────────────────────────────
+// Prisma Schema – AstroFrance Platform
+// ─────────────────────────────────────────────────────────────
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────────────────────────────────────────
+// ENUMS
+// ─────────────────────────────────────────────────────────────
+
+enum UserRole {
+  USER
+  EDITOR
+  ADMIN
+}
+
+enum HoroscopeCategory {
+  GENERAL
+  AMOUR
+  TRAVAIL
+  SANTE
+  ARGENT
+  FAMILLE
+}
+
+enum ArticleStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum MoonPhaseType {
+  NOUVELLE_LUNE
+  PREMIER_QUARTIER
+  PLEINE_LUNE
+  DERNIER_QUARTIER
+}
+
+// ─────────────────────────────────────────────────────────────
+// USER
+// ─────────────────────────────────────────────────────────────
+
+model User {
+  id               String    @id @default(cuid())
+  email            String    @unique
+  password         String
+  firstName        String?
+  lastName         String?
+  role             UserRole  @default(USER)
+  isVerified       Boolean   @default(false)
+  refreshToken     String?
+  birthDate        DateTime?
+  birthTime        String?   // "HH:MM"
+  birthPlace       String?
+  birthLatitude    Float?
+  birthLongitude   Float?
+  zodiacSignId     String?
+  zodiacSign       ZodiacSign? @relation(fields: [zodiacSignId], references: [id])
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@map("users")
+}
+
+// ─────────────────────────────────────────────────────────────
+// ZODIAC SIGN
+// ─────────────────────────────────────────────────────────────
+
+model ZodiacSign {
+  id              String   @id @default(cuid())
+  name            String   @unique      // "Bélier"
+  slug            String   @unique      // "belier"
+  nameEn          String   @unique      // "Aries"
+  symbol          String               // "♈"
+  emoji           String               // "🐏"
+  element         String               // "Feu", "Terre", "Air", "Eau"
+  modality        String               // "Cardinal", "Fixe", "Mutable"
+  rulingPlanet    String               // "Mars"
+  startMonth      Int                  // 3 (mars)
+  startDay        Int                  // 21
+  endMonth        Int                  // 4
+  endDay          Int                  // 19
+  color           String               // "#E25822"
+  gemstone        String?              // "Diamant"
+  description     String   @db.Text
+  shortDesc       String               // one-liner
+  strengths       String[]
+  weaknesses      String[]
+  compatibleWith  String[]             // array of slugs
+  order           Int                  // 1-12
+
+  users           User[]
+  horoscopes      DailyHoroscope[]
+  compatibilityA  Compatibility[]  @relation("SignA")
+  compatibilityB  Compatibility[]  @relation("SignB")
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("zodiac_signs")
+}
+
+// ─────────────────────────────────────────────────────────────
+// DAILY HOROSCOPE
+// ─────────────────────────────────────────────────────────────
+
+model DailyHoroscope {
+  id             String            @id @default(cuid())
+  zodiacSignId   String
+  zodiacSign     ZodiacSign        @relation(fields: [zodiacSignId], references: [id])
+  date           DateTime          @db.Date
+  category       HoroscopeCategory @default(GENERAL)
+  content        String            @db.Text
+  luckyNumber    Int?
+  luckyColor     String?
+  luckyDay       String?
+  rating         Int?              // 1-5 stars
+  keywords       String[]
+  planetaryInfo  String?
+  isPublished    Boolean           @default(false)
+  authorId       String?
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+
+  @@unique([zodiacSignId, date, category])
+  @@index([date])
+  @@index([zodiacSignId])
+  @@map("daily_horoscopes")
+}
+
+// ─────────────────────────────────────────────────────────────
+// TAROT CARD
+// ─────────────────────────────────────────────────────────────
+
+model TarotCard {
+  id              String   @id @default(cuid())
+  name            String   @unique      // "Le Mat"
+  slug            String   @unique
+  nameFr          String               // French name
+  nameEn          String               // English name
+  arcana          String               // "Major" | "Minor"
+  suit            String?              // "Baguettes", "Coupes", "Épées", "Pentacles" (for minor)
+  number          Int
+  keywords        String[]
+  meaningUpright  String   @db.Text
+  meaningReversed String   @db.Text
+  description     String   @db.Text
+  imageUrl        String?
+  element         String?
+  planet          String?
+  zodiacSign      String?
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("tarot_cards")
+}
+
+// ─────────────────────────────────────────────────────────────
+// ARTICLE
+// ─────────────────────────────────────────────────────────────
+
+model Article {
+  id              String        @id @default(cuid())
+  title           String
+  slug            String        @unique
+  excerpt         String        @db.Text
+  content         String        @db.Text
+  coverImage      String?
+  status          ArticleStatus @default(DRAFT)
+  tags            String[]
+  category        String        @default("Astrologie")
+  metaTitle       String?
+  metaDescription String?
+  readingTimeMin  Int?
+  viewCount       Int           @default(0)
+  authorId        String?
+  publishedAt     DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([slug])
+  @@index([status])
+  @@index([publishedAt])
+  @@map("articles")
+}
+
+// ─────────────────────────────────────────────────────────────
+// MOON PHASE
+// ─────────────────────────────────────────────────────────────
+
+model MoonPhase {
+  id            String        @id @default(cuid())
+  date          DateTime      @db.Date
+  phase         MoonPhaseType
+  illumination  Float                 // 0.0 – 1.0
+  zodiacSign    String?               // sign the moon is in
+  energy        String?       @db.Text
+  ritual        String?       @db.Text
+  affirmation   String?
+  isPublished   Boolean       @default(true)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@unique([date, phase])
+  @@index([date])
+  @@map("moon_phases")
+}
+
+// ─────────────────────────────────────────────────────────────
+// COMPATIBILITY
+// ─────────────────────────────────────────────────────────────
+
+model Compatibility {
+  id           String     @id @default(cuid())
+  signAId      String
+  signA        ZodiacSign @relation("SignA", fields: [signAId], references: [id])
+  signBId      String
+  signB        ZodiacSign @relation("SignB", fields: [signBId], references: [id])
+  scoreGlobal  Int        // 0-100
+  scoreLove    Int
+  scoreWork    Int
+  scoreFriend  Int
+  description  String     @db.Text
+  strengths    String[]
+  challenges   String[]
+  advice       String?    @db.Text
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@unique([signAId, signBId])
+  @@map("compatibilities")
+}
