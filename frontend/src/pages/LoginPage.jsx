@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Eye, EyeOff, Star, ArrowRight } from 'lucide-react';
+import { Eye, EyeOff, Orbit, ArrowRight } from 'lucide-react';
 import toast from 'react-hot-toast';
 import SEOMeta from '@/components/seo/SEOMeta';
 import { useAuth } from '@/context/AuthContext';
@@ -19,10 +19,10 @@ export default function LoginPage() {
     setLoading(true);
     try {
       await login(form);
-      toast.success('Bienvenue ! ✨');
+      toast.success('Connected successfully.');
       navigate('/');
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Email ou mot de passe incorrect.');
+      toast.error(err.response?.data?.message || 'Invalid email or password.');
     } finally {
       setLoading(false);
     }
@@ -30,29 +30,30 @@ export default function LoginPage() {
 
   return (
     <>
-      <SEOMeta title="Connexion" description="Connectez-vous à votre compte AstroFrance." canonical="/connexion" noIndex />
+      <SEOMeta title="Connexion — ASTRA" description="Sign in to your ASTRA personal account." canonical="/connexion" noIndex />
 
-      <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-stars">
-        <div className="absolute inset-0 bg-cosmic-gradient" />
-
+      <div className="min-h-screen flex items-center justify-center px-4 py-16 bg-cosmic-ambient relative">
         <div className="relative z-10 w-full max-w-md">
+          
           {/* Logo */}
           <div className="text-center mb-8">
-            <Link to="/" className="inline-flex items-center gap-2 mb-6">
-              <Star className="w-8 h-8 text-gold-400" fill="currentColor" />
-              <span className="font-display text-2xl font-bold gold-text">AstroFrance</span>
+            <Link to="/" className="inline-flex items-center gap-2 mb-4 group">
+              <div className="w-8 h-8 rounded-lg bg-white/[0.04] border border-white/[0.1] flex items-center justify-center text-accent-400">
+                <Orbit className="w-4 h-4 stroke-[1.75]" />
+              </div>
+              <span className="editorial-title text-xl font-bold text-white">ASTRA</span>
             </Link>
-            <h1 className="font-display text-3xl font-bold text-stardust-100 mb-2">Connexion</h1>
-            <p className="text-stardust-400">Accédez à votre espace astrologique</p>
+            <h1 className="editorial-title text-2xl font-bold text-white mb-1">Account Access</h1>
+            <p className="text-xs font-mono text-slate-400">Authenticate your astrological profile session</p>
           </div>
 
           {/* Form Card */}
-          <div className="glass-card p-8">
-            <form onSubmit={handleSubmit} noValidate className="space-y-5">
-              {/* Email */}
+          <div className="glass-surface p-8 card-premium border border-white/[0.08]">
+            <form onSubmit={handleSubmit} noValidate className="space-y-4">
+              
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-stardust-300 mb-2">
-                  Adresse email
+                <label htmlFor="email" className="block text-xs font-mono text-slate-300 uppercase mb-1.5">
+                  Email address
                 </label>
                 <input
                   id="email"
@@ -62,15 +63,14 @@ export default function LoginPage() {
                   required
                   value={form.email}
                   onChange={handleChange}
-                  placeholder="votre@email.fr"
-                  className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-stardust-100 placeholder-stardust-600 focus:outline-none focus:border-gold-500/60 focus:bg-white/8 transition-all duration-200"
+                  placeholder="name@domain.com"
+                  className="w-full px-3.5 py-2.5 rounded-lg bg-black/40 border border-white/[0.1] text-slate-100 placeholder-slate-600 focus:outline-none focus:border-accent-500 text-sm transition-all"
                 />
               </div>
 
-              {/* Password */}
               <div>
-                <label htmlFor="password" className="block text-sm font-medium text-stardust-300 mb-2">
-                  Mot de passe
+                <label htmlFor="password" className="block text-xs font-mono text-slate-300 uppercase mb-1.5">
+                  Password
                 </label>
                 <div className="relative">
                   <input
@@ -82,37 +82,40 @@ export default function LoginPage() {
                     value={form.password}
                     onChange={handleChange}
                     placeholder="••••••••"
-                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-stardust-100 placeholder-stardust-600 focus:outline-none focus:border-gold-500/60 focus:bg-white/8 transition-all duration-200 pr-12"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-black/40 border border-white/[0.1] text-slate-100 placeholder-slate-600 focus:outline-none focus:border-accent-500 text-sm transition-all pr-10"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPwd(!showPwd)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-stardust-500 hover:text-gold-400 transition-colors"
-                    aria-label={showPwd ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors"
                   >
-                    {showPwd ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                    {showPwd ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
                 </div>
               </div>
 
-              <button
-                id="login-submit-btn"
-                type="submit"
-                disabled={loading}
-                className="btn-gold w-full py-3 text-base disabled:opacity-60 disabled:cursor-not-allowed"
-              >
-                {loading ? 'Connexion...' : 'Se connecter'}
-                {!loading && <ArrowRight className="w-4 h-4" />}
-              </button>
+              <div className="pt-2">
+                <button
+                  id="login-submit-btn"
+                  type="submit"
+                  disabled={loading}
+                  className="btn-primary w-full py-2.5 text-sm flex items-center justify-center gap-2 disabled:opacity-50"
+                >
+                  <span>{loading ? 'Authenticating...' : 'Sign In'}</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+
             </form>
 
-            <div className="mt-6 text-center text-sm text-stardust-400">
-              Pas encore de compte ?{' '}
-              <Link to="/inscription" className="text-gold-400 hover:text-gold-300 transition-colors font-medium">
-                S'inscrire gratuitement
+            <div className="mt-6 pt-6 border-t border-white/[0.06] text-center text-xs font-mono text-slate-400">
+              New to ASTRA?{' '}
+              <Link to="/inscription" className="text-accent-400 hover:text-accent-300 font-semibold ml-1">
+                Create profile
               </Link>
             </div>
           </div>
+
         </div>
       </div>
     </>

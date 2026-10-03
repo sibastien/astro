@@ -7,6 +7,7 @@ import { HelmetProvider } from 'react-helmet-async';
 
 import App from './App';
 import { AuthProvider } from './context/AuthContext';
+import { UserProfileProvider } from './context/UserProfileContext';
 import './index.css';
 
 const queryClient = new QueryClient({
@@ -24,19 +25,25 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <AuthProvider>
-            <App />
-            <Toaster
-              position="top-right"
-              toastOptions={{
-                style: {
-                  background: '#0e1530',
-                  color: '#f0f0ff',
-                  border: '1px solid rgba(251,191,36,0.3)',
-                  borderRadius: '12px',
-                },
-                success: { iconTheme: { primary: '#f59e0b', secondary: '#050714' } },
-              }}
-            />
+            <UserProfileProvider>
+              <App />
+              <Toaster
+                position="top-right"
+                toastOptions={{
+                  style: {
+                    background: '#0d0f15',
+                    color: '#f8fafc',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    borderRadius: '8px',
+                    fontSize: '13px',
+                    fontFamily: 'Inter, sans-serif',
+                  },
+                  success: {
+                    iconTheme: { primary: '#6366f1', secondary: '#060709' },
+                  },
+                }}
+              />
+            </UserProfileProvider>
           </AuthProvider>
         </BrowserRouter>
       </QueryClientProvider>

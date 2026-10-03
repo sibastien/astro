@@ -9,7 +9,6 @@ import ArticlePage from '@/pages/ArticlePage';
 import LoginPage from '@/pages/LoginPage';
 import RegisterPage from '@/pages/RegisterPage';
 import NotFoundPage from '@/pages/NotFoundPage';
-// Stub pages for future phases
 import TarotPage from '@/pages/TarotPage';
 import LunePage from '@/pages/LunePage';
 import CompatibilitePage from '@/pages/CompatibilitePage';
@@ -18,7 +17,16 @@ export default function App() {
   return (
     <Routes>
       <Route element={<Layout />}>
+        {/* Core Guided / Personalized Platform */}
         <Route path="/" element={<HomePage />} />
+        <Route path="/today" element={<HomePage defaultFocus="today" />} />
+        <Route path="/love" element={<HomePage defaultFocus="love" />} />
+        <Route path="/career" element={<HomePage defaultFocus="career" />} />
+        <Route path="/personality" element={<HomePage defaultFocus="personality" />} />
+        <Route path="/birth-chart" element={<HomePage defaultFocus="birth-chart" />} />
+        <Route path="/forecast" element={<HomePage defaultFocus="forecast" />} />
+
+        {/* Encyclopedic & Secondary Modules */}
         <Route path="/horoscope" element={<HoroscopePage />} />
         <Route path="/horoscope/:slug" element={<HoroscopeSignPage />} />
         <Route path="/signes-du-zodiaque" element={<ZodiacPage />} />
@@ -27,8 +35,11 @@ export default function App() {
         <Route path="/tarot" element={<TarotPage />} />
         <Route path="/lune" element={<LunePage />} />
         <Route path="/compatibilite" element={<CompatibilitePage />} />
+        
+        {/* Auth */}
         <Route path="/connexion" element={<LoginPage />} />
         <Route path="/inscription" element={<RegisterPage />} />
+        
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>

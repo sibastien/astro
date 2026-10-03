@@ -1,76 +1,61 @@
 import { Link } from 'react-router-dom';
-import { Star, Mail, Send, MessageCircle } from 'lucide-react';
-
-const ZODIAC_SIGNS = [
-  { name: 'Bélier', slug: 'belier' },
-  { name: 'Taureau', slug: 'taureau' },
-  { name: 'Gémeaux', slug: 'gemeaux' },
-  { name: 'Cancer', slug: 'cancer' },
-  { name: 'Lion', slug: 'lion' },
-  { name: 'Vierge', slug: 'vierge' },
-  { name: 'Balance', slug: 'balance' },
-  { name: 'Scorpion', slug: 'scorpion' },
-  { name: 'Sagittaire', slug: 'sagittaire' },
-  { name: 'Capricorne', slug: 'capricorne' },
-  { name: 'Verseau', slug: 'verseau' },
-  { name: 'Poissons', slug: 'poissons' },
-];
-
-const QUICK_LINKS = [
-  { label: 'Horoscope du jour', to: '/horoscope' },
-  { label: 'Signes du zodiaque', to: '/signes-du-zodiaque' },
-  { label: 'Tarot', to: '/tarot' },
-  { label: 'Lune & Phases', to: '/lune' },
-  { label: 'Compatibilité', to: '/compatibilite' },
-  { label: 'Articles', to: '/articles' },
-];
+import { Orbit, ShieldCheck, Cpu } from 'lucide-react';
+import { useUserProfile } from '@/context/UserProfileContext';
 
 export default function Footer() {
+  const { isOnboardingActive, onboardingStep } = useUserProfile();
+
+  // If on Screen 1 of onboarding, do not show footer to keep experience clean & full-screen
+  if (isOnboardingActive && onboardingStep === 1) {
+    return null;
+  }
+
+  const QUICK_LINKS = [
+    { label: 'Today Transit', to: '/' },
+    { label: 'Zodiac Signs', to: '/signes-du-zodiaque' },
+    { label: 'Moon Phases', to: '/lune' },
+    { label: 'Compatibility', to: '/compatibilite' },
+    { label: 'Tarot Archetypes', to: '/tarot' },
+    { label: 'Articles & Research', to: '/articles' },
+  ];
+
   return (
-    <footer className="relative border-t border-white/5 bg-cosmic-950/80 backdrop-blur-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8">
-
-        {/* Top Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
-
-          {/* Brand */}
-          <div className="lg:col-span-1">
-            <Link to="/" className="flex items-center gap-2 mb-4 group">
-              <Star className="w-7 h-7 text-gold-400" fill="currentColor" />
-              <span className="font-display text-xl font-bold gold-text">AstroFrance</span>
-            </Link>
-            <p className="text-stardust-400 text-sm leading-relaxed mb-5">
-              Votre guide astrologique de référence. Horoscopes, thèmes natals, tarot et compatibilité — tout pour explorer les étoiles.
+    <footer className="border-t border-white/[0.08] bg-[#060709] text-slate-400 text-xs font-sans pb-16 md:pb-8 pt-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-10 border-b border-white/[0.06]">
+          
+          {/* Brand Column */}
+          <div className="md:col-span-2 space-y-3">
+            <div className="flex items-center gap-2.5">
+              <div className="w-7 h-7 rounded-md bg-white/[0.04] border border-white/[0.1] flex items-center justify-center text-accent-400">
+                <Orbit className="w-3.5 h-3.5 stroke-[1.75]" />
+              </div>
+              <span className="editorial-title text-base font-bold text-white tracking-tight">
+                ASTRA
+              </span>
+            </div>
+            <p className="text-slate-400 text-xs sm:text-sm max-w-md leading-relaxed">
+              Precision astrological intelligence platform. Mathematical celestial ephemeris engine synthesizing natal transits, psychological archetypes, and harmonic timing vectors.
             </p>
-            <div className="flex items-center gap-3">
-              {[
-                { Icon: Instagram, href: '#', label: 'Instagram' },
-                { Icon: Twitter, href: '#', label: 'Twitter' },
-                { Icon: Mail, href: '#', label: 'Email' },
-              ].map(({ Icon, href, label }) => (
-                <a
-                  key={label}
-                  href={href}
-                  aria-label={label}
-                  className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center text-stardust-400 hover:text-gold-400 hover:border-gold-500/40 hover:bg-gold-500/10 transition-all duration-200"
-                >
-                  <Icon className="w-4 h-4" />
-                </a>
-              ))}
+            <div className="flex items-center gap-3 pt-2 text-[11px] font-mono text-slate-500">
+              <span className="flex items-center gap-1">
+                <ShieldCheck className="w-3.5 h-3.5 text-accent-400" />
+                Zero tracking of personal birth records
+              </span>
             </div>
           </div>
 
-          {/* Quick Links */}
+          {/* Platform Links */}
           <div>
-            <h3 className="font-display text-sm font-semibold text-stardust-100 uppercase tracking-widest mb-4">
-              Navigation
-            </h3>
+            <h4 className="font-mono text-[11px] text-slate-300 uppercase tracking-widest mb-3">
+              Platform
+            </h4>
             <ul className="space-y-2">
               {QUICK_LINKS.map((link) => (
-                <li key={link.to}>
+                <li key={link.label}>
                   <Link
                     to={link.to}
-                    className="text-stardust-400 hover:text-gold-400 text-sm transition-colors duration-200"
+                    className="text-slate-400 hover:text-white transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -79,37 +64,25 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Zodiac Signs */}
-          <div className="lg:col-span-2">
-            <h3 className="font-display text-sm font-semibold text-stardust-100 uppercase tracking-widest mb-4">
-              Signes du zodiaque
-            </h3>
-            <ul className="grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-2">
-              {ZODIAC_SIGNS.map((sign) => (
-                <li key={sign.slug}>
-                  <Link
-                    to={`/horoscope/${sign.slug}`}
-                    className="text-stardust-400 hover:text-gold-400 text-sm transition-colors duration-200"
-                  >
-                    {sign.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+          {/* Ephemeris Specs */}
+          <div>
+            <h4 className="font-mono text-[11px] text-slate-300 uppercase tracking-widest mb-3">
+              Calibration Standard
+            </h4>
+            <div className="space-y-1.5 text-slate-500 font-mono text-[11px]">
+              <p>House System: Placidus 360°</p>
+              <p>Zodiac: Tropical & Topocentric</p>
+              <p>Ephemeris: Swiss DE431 Ref</p>
+              <p>Interface: Neural Synthesis v2.4</p>
+            </div>
           </div>
+
         </div>
 
-        {/* Divider */}
-        <div className="h-px bg-gradient-to-r from-transparent via-gold-500/20 to-transparent mb-8" />
-
-        {/* Bottom */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-stardust-500 text-xs">
-          <p>© {new Date().getFullYear()} AstroFrance. Tous droits réservés.</p>
-          <div className="flex items-center gap-4">
-            <Link to="/confidentialite" className="hover:text-stardust-300 transition-colors">Confidentialité</Link>
-            <Link to="/mentions-legales" className="hover:text-stardust-300 transition-colors">Mentions légales</Link>
-            <Link to="/contact" className="hover:text-stardust-300 transition-colors">Contact</Link>
-          </div>
+        {/* Bottom copyright row */}
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] font-mono text-slate-500">
+          <p>© {new Date().getFullYear()} ASTRA Intelligence. All rights reserved.</p>
+          <p className="text-slate-600">Designed for personal clarity and strategic timing.</p>
         </div>
       </div>
     </footer>

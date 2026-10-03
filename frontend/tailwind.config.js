@@ -4,83 +4,98 @@ export default {
   theme: {
     extend: {
       colors: {
-        // ── Cosmic Navy palette ──────────────────────
+        // Deep obsidian / charcoal cinematic palette
+        space: {
+          950: '#060709',
+          900: '#0b0c11',
+          850: '#101218',
+          800: '#151720',
+          700: '#1e212d',
+          600: '#2b2f40',
+        },
+        // Restrained luxury accent: Electric Indigo & Violet
+        accent: {
+          300: '#c4b5fd',
+          400: '#a78bfa',
+          500: '#818cf8',
+          600: '#6366f1',
+          700: '#4f46e5',
+        },
+        // Cool electric blue for precision metrics
+        cyanic: {
+          400: '#38bdf8',
+          500: '#0ea5e9',
+        },
+        // Crisp editorial typography shades
+        paper: {
+          50: '#f8fafc',
+          100: '#f1f5f9',
+          200: '#e2e8f0',
+          300: '#cbd5e1',
+          400: '#94a3b8',
+          500: '#64748b',
+          600: '#475569',
+        },
+        // Backward compatibility mappings so existing components don't crash
         cosmic: {
-          950: '#050714',
-          900: '#090d1f',
-          800: '#0e1530',
-          700: '#141d42',
-          600: '#1c2654',
+          950: '#060709',
+          900: '#0b0c11',
+          800: '#151720',
+          700: '#1e212d',
+          600: '#2b2f40',
         },
-        // ── Gold accents ─────────────────────────────
-        gold: {
-          300: '#fde68a',
-          400: '#fbbf24',
-          500: '#f59e0b',
-          600: '#d97706',
-        },
-        // ── Celestial purple ─────────────────────────
-        celestial: {
-          400: '#c084fc',
-          500: '#a855f7',
-          600: '#9333ea',
-          700: '#7e22ce',
-        },
-        // ── Stardust (muted light) ───────────────────
         stardust: {
-          100: '#f0f0ff',
-          200: '#dcdcf5',
-          300: '#b8b8d8',
-          400: '#8888aa',
-          500: '#555577',
+          100: '#f8fafc',
+          200: '#f1f5f9',
+          300: '#cbd5e1',
+          400: '#94a3b8',
+          500: '#64748b',
         },
+        gold: {
+          300: '#c4b5fd',
+          400: '#818cf8',
+          500: '#6366f1',
+          600: '#4f46e5',
+        },
+        celestial: {
+          400: '#a78bfa',
+          500: '#818cf8',
+          600: '#6366f1',
+          700: '#4f46e5',
+        }
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        serif: ['Cormorant Garamond', 'Georgia', 'serif'],
-        display: ['Cinzel', 'serif'],
+        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        mono: ['JetBrains Mono', 'Menlo', 'Consolas', 'monospace'],
+        display: ['Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'],
       },
       backgroundImage: {
-        'cosmic-gradient': 'linear-gradient(135deg, #050714 0%, #090d1f 50%, #141d42 100%)',
-        'gold-gradient': 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%)',
-        'celestial-gradient': 'linear-gradient(135deg, #a855f7 0%, #7e22ce 100%)',
-        'card-gradient': 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
-        'star-field': "radial-gradient(ellipse at top, #1c2654 0%, #050714 70%)",
+        'subtle-radial': 'radial-gradient(ellipse at 50% 0%, rgba(99, 102, 241, 0.08) 0%, rgba(6, 7, 9, 0) 70%)',
+        'subtle-glow': 'radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.06) 0%, transparent 60%)',
+        'glass-gradient': 'linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%)',
       },
       boxShadow: {
-        'gold-sm': '0 0 10px rgba(251,191,36,0.2)',
-        'gold-md': '0 0 20px rgba(251,191,36,0.3)',
-        'gold-lg': '0 0 40px rgba(251,191,36,0.4)',
-        'cosmic': '0 8px 32px rgba(5,7,20,0.8)',
-        'card': '0 4px 24px rgba(0,0,0,0.4)',
+        'subtle': '0 1px 2px 0 rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.06)',
+        'glow-accent': '0 0 24px -4px rgba(99, 102, 241, 0.25)',
+        'elevated': '0 12px 36px -8px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.08)',
       },
       animation: {
-        'twinkle': 'twinkle 3s ease-in-out infinite',
-        'float': 'float 6s ease-in-out infinite',
-        'glow-pulse': 'glow-pulse 2s ease-in-out infinite',
-        'shimmer': 'shimmer 2.5s linear infinite',
-        'fade-in-up': 'fade-in-up 0.6s ease-out forwards',
+        'fade-in': 'fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        'slide-up': 'slideUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        'pulse-subtle': 'pulseSubtle 4s ease-in-out infinite',
       },
       keyframes: {
-        twinkle: {
-          '0%, 100%': { opacity: '1', transform: 'scale(1)' },
-          '50%': { opacity: '0.3', transform: 'scale(0.8)' },
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
         },
-        float: {
-          '0%, 100%': { transform: 'translateY(0px)' },
-          '50%': { transform: 'translateY(-12px)' },
-        },
-        'glow-pulse': {
-          '0%, 100%': { boxShadow: '0 0 10px rgba(251,191,36,0.3)' },
-          '50%': { boxShadow: '0 0 30px rgba(251,191,36,0.7)' },
-        },
-        shimmer: {
-          '0%': { backgroundPosition: '-200% 0' },
-          '100%': { backgroundPosition: '200% 0' },
-        },
-        'fade-in-up': {
-          '0%': { opacity: '0', transform: 'translateY(24px)' },
+        slideUp: {
+          '0%': { opacity: '0', transform: 'translateY(12px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        pulseSubtle: {
+          '0%, 100%': { opacity: '0.6' },
+          '50%': { opacity: '1' },
         },
       },
     },

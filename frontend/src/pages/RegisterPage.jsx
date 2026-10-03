@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Eye, EyeOff, Star, ArrowRight, Check } from 'lucide-react';
+import { Eye, EyeOff, Orbit, ArrowRight, Check } from 'lucide-react';
 import toast from 'react-hot-toast';
 import SEOMeta from '@/components/seo/SEOMeta';
 import { useAuth } from '@/context/AuthContext';
 
 const PERKS = [
-  'Horoscope personnalisé quotidien',
-  'Thème natal complet (Phase 3)',
-  'Compatibilité détaillée',
-  'Notifications lunaires',
+  'Real-time transit intelligence stream',
+  '360° Swiss Ephemeris Natal Chart',
+  'Interpersonal synergy & resonance matrix',
+  'Encrypted, private personal profile',
 ];
 
 export default function RegisterPage() {
@@ -24,16 +24,16 @@ export default function RegisterPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (form.password.length < 8) {
-      toast.error('Le mot de passe doit comporter au moins 8 caractères.');
+      toast.error('Password must contain at least 8 characters.');
       return;
     }
     setLoading(true);
     try {
       await register(form);
-      toast.success('Compte créé avec succès ! Bienvenue ✨');
+      toast.success('Profile created successfully.');
       navigate('/');
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Erreur lors de l\'inscription.');
+      toast.error(err.response?.data?.message || 'Error creating account.');
     } finally {
       setLoading(false);
     }
@@ -41,113 +41,127 @@ export default function RegisterPage() {
 
   return (
     <>
-      <SEOMeta title="Inscription" description="Créez votre compte AstroFrance gratuitement." canonical="/inscription" noIndex />
+      <SEOMeta title="Inscription — ASTRA" description="Create your ASTRA account." canonical="/inscription" noIndex />
 
-      <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-stars">
-        <div className="absolute inset-0 bg-cosmic-gradient" />
-
-        <div className="relative z-10 w-full max-w-4xl grid md:grid-cols-2 gap-8">
-          {/* Left: Perks */}
-          <div className="hidden md:flex flex-col justify-center">
-            <Link to="/" className="inline-flex items-center gap-2 mb-8">
-              <Star className="w-8 h-8 text-gold-400" fill="currentColor" />
-              <span className="font-display text-2xl font-bold gold-text">AstroFrance</span>
+      <div className="min-h-screen flex items-center justify-center px-4 py-16 bg-cosmic-ambient relative">
+        <div className="relative z-10 w-full max-w-4xl grid md:grid-cols-2 gap-10 items-center">
+          
+          {/* Left Column */}
+          <div className="hidden md:block space-y-6">
+            <Link to="/" className="inline-flex items-center gap-2 group">
+              <div className="w-8 h-8 rounded-lg bg-white/[0.04] border border-white/[0.1] flex items-center justify-center text-accent-400">
+                <Orbit className="w-4 h-4 stroke-[1.75]" />
+              </div>
+              <span className="editorial-title text-xl font-bold text-white">ASTRA</span>
             </Link>
-            <h1 className="font-display text-4xl font-bold text-stardust-100 mb-4 leading-tight">
-              Commencez votre voyage astral
+
+            <h1 className="editorial-title text-3xl sm:text-4xl font-bold text-white leading-tight">
+              Calibrate your celestial trajectory.
             </h1>
-            <p className="text-stardust-400 mb-8 leading-relaxed">
-              Rejoignez des milliers d'utilisateurs qui explorent les mystères du cosmos avec AstroFrance.
+            <p className="editorial-sub text-slate-400 text-sm leading-relaxed">
+              Synthesize planetary ephemeris data with actionable personal insight. Fast, credible, and private.
             </p>
-            <ul className="space-y-3">
+
+            <ul className="space-y-3 pt-2">
               {PERKS.map((perk) => (
-                <li key={perk} className="flex items-center gap-3 text-stardust-300">
-                  <span className="w-5 h-5 rounded-full bg-gold-500/20 border border-gold-500/40 flex items-center justify-center flex-shrink-0">
-                    <Check className="w-3 h-3 text-gold-400" />
+                <li key={perk} className="flex items-center gap-3 text-xs font-mono text-slate-300">
+                  <span className="w-4 h-4 rounded-full bg-accent-500/20 border border-accent-500/40 flex items-center justify-center shrink-0">
+                    <Check className="w-2.5 h-2.5 text-accent-300" />
                   </span>
-                  {perk}
+                  <span>{perk}</span>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Right: Form */}
-          <div>
-            <div className="text-center mb-6 md:hidden">
-              <Link to="/" className="inline-flex items-center gap-2 mb-4">
-                <Star className="w-8 h-8 text-gold-400" fill="currentColor" />
-                <span className="font-display text-2xl font-bold gold-text">AstroFrance</span>
-              </Link>
-              <h1 className="font-display text-3xl font-bold text-stardust-100">Inscription</h1>
-            </div>
+          {/* Right Column: Form */}
+          <div className="glass-surface p-8 card-premium border border-white/[0.08]">
+            <h2 className="editorial-title text-2xl font-bold text-white mb-2">Create Profile</h2>
+            <p className="text-xs font-mono text-slate-400 mb-6">Initialize your personal intelligence account</p>
 
-            <div className="glass-card p-8">
-              <h2 className="font-display text-2xl font-semibold text-stardust-100 mb-6 hidden md:block">Créer un compte</h2>
-              <form onSubmit={handleSubmit} noValidate className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="firstName" className="block text-sm font-medium text-stardust-300 mb-2">Prénom</label>
-                    <input id="firstName" name="firstName" type="text" autoComplete="given-name"
-                      value={form.firstName} onChange={handleChange} placeholder="Prénom"
-                      className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-stardust-100 placeholder-stardust-600 focus:outline-none focus:border-gold-500/60 transition-all"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="lastName" className="block text-sm font-medium text-stardust-300 mb-2">Nom</label>
-                    <input id="lastName" name="lastName" type="text" autoComplete="family-name"
-                      value={form.lastName} onChange={handleChange} placeholder="Nom"
-                      className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-stardust-100 placeholder-stardust-600 focus:outline-none focus:border-gold-500/60 transition-all"
-                    />
-                  </div>
-                </div>
-
+            <form onSubmit={handleSubmit} noValidate className="space-y-4">
+              <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label htmlFor="reg-email" className="block text-sm font-medium text-stardust-300 mb-2">Email</label>
-                  <input id="reg-email" name="email" type="email" autoComplete="email" required
-                    value={form.email} onChange={handleChange} placeholder="votre@email.fr"
-                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-stardust-100 placeholder-stardust-600 focus:outline-none focus:border-gold-500/60 transition-all"
+                  <label htmlFor="firstName" className="block text-xs font-mono text-slate-300 uppercase mb-1">First Name</label>
+                  <input
+                    id="firstName"
+                    name="firstName"
+                    type="text"
+                    required
+                    value={form.firstName}
+                    onChange={handleChange}
+                    className="w-full px-3 py-2 rounded-lg bg-black/40 border border-white/[0.1] text-white text-sm focus:border-accent-500 focus:outline-none"
                   />
                 </div>
-
                 <div>
-                  <label htmlFor="reg-password" className="block text-sm font-medium text-stardust-300 mb-2">Mot de passe</label>
-                  <div className="relative">
-                    <input id="reg-password" name="password" type={showPwd ? 'text' : 'password'} autoComplete="new-password" required
-                      value={form.password} onChange={handleChange} placeholder="8 caractères minimum"
-                      className="w-full px-4 py-3 pr-12 rounded-xl bg-white/5 border border-white/10 text-stardust-100 placeholder-stardust-600 focus:outline-none focus:border-gold-500/60 transition-all"
-                    />
-                    <button type="button" onClick={() => setShowPwd(!showPwd)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-stardust-500 hover:text-gold-400 transition-colors"
-                      aria-label={showPwd ? 'Masquer' : 'Afficher'}>
-                      {showPwd ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                    </button>
-                  </div>
-                  {form.password && (
-                    <div className="mt-2 flex gap-1">
-                      {[1,2,3,4].map((n) => (
-                        <div key={n} className={`h-1 flex-1 rounded-full transition-all ${
-                          form.password.length >= n * 2 ? 'bg-gold-400' : 'bg-white/10'
-                        }`} />
-                      ))}
-                    </div>
-                  )}
+                  <label htmlFor="lastName" className="block text-xs font-mono text-slate-300 uppercase mb-1">Last Name</label>
+                  <input
+                    id="lastName"
+                    name="lastName"
+                    type="text"
+                    required
+                    value={form.lastName}
+                    onChange={handleChange}
+                    className="w-full px-3 py-2 rounded-lg bg-black/40 border border-white/[0.1] text-white text-sm focus:border-accent-500 focus:outline-none"
+                  />
                 </div>
+              </div>
 
-                <button id="register-submit-btn" type="submit" disabled={loading}
-                  className="btn-gold w-full py-3 text-base disabled:opacity-60 disabled:cursor-not-allowed mt-2">
-                  {loading ? 'Création du compte...' : 'Créer mon compte gratuitement'}
-                  {!loading && <ArrowRight className="w-4 h-4" />}
+              <div>
+                <label htmlFor="email" className="block text-xs font-mono text-slate-300 uppercase mb-1">Email</label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  required
+                  value={form.email}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 rounded-lg bg-black/40 border border-white/[0.1] text-white text-sm focus:border-accent-500 focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="password" className="block text-xs font-mono text-slate-300 uppercase mb-1">Password</label>
+                <div className="relative">
+                  <input
+                    id="password"
+                    name="password"
+                    type={showPwd ? 'text' : 'password'}
+                    required
+                    value={form.password}
+                    onChange={handleChange}
+                    className="w-full px-3 py-2 rounded-lg bg-black/40 border border-white/[0.1] text-white text-sm focus:border-accent-500 focus:outline-none pr-10"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPwd(!showPwd)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300"
+                  >
+                    {showPwd ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
+              </div>
+
+              <div className="pt-2">
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="btn-primary w-full py-2.5 text-sm flex items-center justify-center gap-2 disabled:opacity-50"
+                >
+                  <span>{loading ? 'Creating...' : 'Initialize Account'}</span>
+                  <ArrowRight className="w-4 h-4" />
                 </button>
-              </form>
+              </div>
+            </form>
 
-              <p className="mt-6 text-center text-sm text-stardust-400">
-                Déjà un compte ?{' '}
-                <Link to="/connexion" className="text-gold-400 hover:text-gold-300 transition-colors font-medium">
-                  Se connecter
-                </Link>
-              </p>
+            <div className="mt-6 pt-6 border-t border-white/[0.06] text-center text-xs font-mono text-slate-400">
+              Already have an account?{' '}
+              <Link to="/connexion" className="text-accent-400 hover:text-accent-300 font-semibold ml-1">
+                Sign in
+              </Link>
             </div>
           </div>
+
         </div>
       </div>
     </>
