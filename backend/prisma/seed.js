@@ -299,7 +299,19 @@ async function main() {
     console.log(`✅ ${result.symbol} ${result.name} (${result.nameEn}) — créé/mis à jour`);
   }
 
-  console.log('\n🎉 Seed terminé ! Les 12 signes du zodiaque ont été insérés.');
+  // Seed Tarot Major Arcana
+  const { MAJOR_ARCANA } = require('../src/modules/tarot/tarot.data');
+  console.log('\n🃏 Ingestion des 22 Arcanes Majeurs du Tarot...');
+  for (const card of MAJOR_ARCANA) {
+    await prisma.tarotCard.upsert({
+      where: { slug: card.slug },
+      update: card,
+      create: card,
+    });
+  }
+  console.log(`✅ ${MAJOR_ARCANA.length} cartes de Tarot insérées.`);
+
+  console.log('\n🎉 Seed terminé ! Les 12 signes et les cartes de Tarot sont prêts.');
 }
 
 main()

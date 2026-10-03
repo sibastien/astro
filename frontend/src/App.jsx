@@ -12,6 +12,7 @@ import NotFoundPage from '@/pages/NotFoundPage';
 import TarotPage from '@/pages/TarotPage';
 import LunePage from '@/pages/LunePage';
 import CompatibilitePage from '@/pages/CompatibilitePage';
+import AdminDashboardPage from '@/pages/AdminDashboardPage';
 
 export default function App() {
   return (
@@ -35,6 +36,9 @@ export default function App() {
         <Route path="/tarot" element={<TarotPage />} />
         <Route path="/lune" element={<LunePage />} />
         <Route path="/compatibilite" element={<CompatibilitePage />} />
+        
+        {/* Admin Dashboard */}
+        <Route path="/admin" element={<AdminDashboardPage />} />
         
         {/* Auth */}
         <Route path="/connexion" element={<LoginPage />} />

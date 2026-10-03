@@ -98,7 +98,7 @@ export default function Navbar() {
                         key={link.id}
                         onClick={link.action}
                         id={`nav-link-${link.id}`}
-                        className={`px-3.5 py-1.5 rounded-full text-xs font-mono tracking-wider uppercase transition-all duration-200 ${
+                        className={`px-3 py-1.5 rounded-full text-xs font-mono tracking-wider uppercase transition-all duration-200 ${
                           isActive
                             ? 'bg-white text-space-950 font-bold shadow-subtle'
                             : 'text-slate-400 hover:text-white hover:bg-white/[0.04]'
@@ -108,11 +108,50 @@ export default function Navbar() {
                       </button>
                     );
                   })}
+
+                  {/* Direct Tarot Link */}
+                  <Link
+                    to="/tarot"
+                    id="nav-link-tarot"
+                    className={`px-3 py-1.5 rounded-full text-xs font-mono tracking-wider uppercase transition-all duration-200 flex items-center gap-1.5 ${
+                      location.pathname === '/tarot'
+                        ? 'bg-accent-500 text-space-950 font-bold shadow-subtle'
+                        : 'text-accent-300 hover:text-white hover:bg-accent-500/10'
+                    }`}
+                  >
+                    <Sparkles className="w-3.5 h-3.5" />
+                    <span>Tarot</span>
+                  </Link>
+
+                  {/* Direct Horoscope Link */}
+                  <Link
+                    to="/horoscope"
+                    id="nav-link-horoscope"
+                    className={`px-3 py-1.5 rounded-full text-xs font-mono tracking-wider uppercase transition-all duration-200 ${
+                      location.pathname.startsWith('/horoscope')
+                        ? 'bg-white text-space-950 font-bold shadow-subtle'
+                        : 'text-slate-400 hover:text-white hover:bg-white/[0.04]'
+                    }`}
+                  >
+                    Horoscope
+                  </Link>
                 </nav>
 
-                {/* Right controls: Language, Explore & Profile chip */}
+                {/* Right controls: Language, Admin button, Explore & Profile chip */}
                 <div className="hidden md:flex items-center gap-3">
                   <LanguageSwitcher compact />
+
+                  {/* Admin Dashboard shortcut if ADMIN */}
+                  {user?.role === 'ADMIN' && (
+                    <Link
+                      to="/admin"
+                      className="px-2.5 py-1 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300 hover:bg-amber-500/20 text-xs font-mono tracking-wider transition-colors flex items-center gap-1"
+                      title="Tableau de bord Administrateur"
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+                      <span>Admin</span>
+                    </Link>
+                  )}
 
                   <button
                     onClick={() => setIsExploreOpen(true)}
@@ -194,6 +233,17 @@ export default function Navbar() {
             <Sun className="w-4 h-4" />
             <span className="text-[10px]">{t('common.today')}</span>
           </button>
+
+          {/* Tarot */}
+          <Link
+            to="/tarot"
+            className={`flex flex-col items-center gap-1 py-1 px-3 text-xs font-mono transition-colors ${
+              location.pathname === '/tarot' ? 'text-accent-300 font-semibold' : 'text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            <Sparkles className="w-4 h-4" />
+            <span className="text-[10px]">Tarot</span>
+          </Link>
 
           {/* Explore */}
           <button

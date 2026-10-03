@@ -16,6 +16,9 @@ router.get('/:slug', horoscopeController.getBySign);
 // GET /api/v1/horoscopes/:slug/:category – specific category horoscope
 router.get('/:slug/:category', horoscopeController.getBySignAndCategory);
 
+// POST /api/v1/horoscopes/sync-today – generate/sync today's horoscopes
+router.post('/sync-today', horoscopeController.syncToday);
+
 // POST /api/v1/horoscopes – create (admin/editor only)
 router.post('/', authenticate, authorize('ADMIN', 'EDITOR'), horoscopeController.create);
 

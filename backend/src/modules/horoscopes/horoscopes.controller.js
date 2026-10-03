@@ -3,13 +3,14 @@
  */
 
 const prisma = require('../../config/prisma');
+const { ensureTodayHoroscopes } = require('./horoscopeGenerator');
 
 const todayDate = () => new Date(new Date().toISOString().split('T')[0]);
 
 // GET /horoscopes/today – all 12 signs general horoscope
 const getToday = async (req, res, next) => {
   try {
-    const horoscopes = await prisma.dailyHoroscope.findMany({
+    let horoscopes = await prisma.dailyHoroscope.findMany({
       where: { date: todayDate(), category: 'GENERAL', isPublished: true },
       include: {
         zodiacSign: {
@@ -18,6 +19,21 @@ const getToday = async (req, res, next) => {
       },
       orderBy: { zodiacSign: { order: 'asc' } },
     });
+
+    // If no horoscopes exist for today, automatically generate and re-fetch!
+    if (!horoscopes || horoscopes.length === 0) {
+      await ensureTodayHoroscopes();
+      horoscopes = await prisma.dailyHoroscope.findMany({
+        where: { date: todayDate(), category: 'GENERAL', isPublished: true },
+        include: {
+          zodiacSign: {
+            select: { name: true, slug: true, symbol: true, emoji: true, color: true },
+          },
+        },
+        orderBy: { zodiacSign: { order: 'asc' } },
+      });
+    }
+
     res.json({ success: true, data: { horoscopes, date: todayDate() } });
   } catch (err) {
     next(err);
@@ -33,10 +49,18 @@ const getBySign = async (req, res, next) => {
     const sign = await prisma.zodiacSign.findUnique({ where: { slug } });
     if (!sign) return res.status(404).json({ success: false, message: 'Signe introuvable.' });
 
-    const horoscopes = await prisma.dailyHoroscope.findMany({
+    let horoscopes = await prisma.dailyHoroscope.findMany({
       where: { zodiacSignId: sign.id, date: dateParam, isPublished: true },
       orderBy: { category: 'asc' },
     });
+
+    if ((!horoscopes || horoscopes.length === 0) && (!req.query.date || req.query.date === todayDate().toISOString().split('T')[0])) {
+      await ensureTodayHoroscopes();
+      horoscopes = await prisma.dailyHoroscope.findMany({
+        where: { zodiacSignId: sign.id, date: dateParam, isPublished: true },
+        orderBy: { category: 'asc' },
+      });
+    }
 
     res.json({ success: true, data: { sign, horoscopes, date: dateParam } });
   } catch (err) {
@@ -112,4 +136,15 @@ const update = async (req, res, next) => {
   }
 };
 
-module.exports = { getToday, getBySign, getBySignAndCategory, create, update };
+// POST /horoscopes/sync-today
+const syncToday = async (req, res, next) => {
+  try {
+    const result = await ensureTodayHoroscopes(req.body?.date);
+    res.json({ success: true, data: result, message: 'Horoscopes générés avec succès.' });
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports = { getToday, getBySign, getBySignAndCategory, create, update, syncToday };
+
