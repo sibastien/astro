@@ -9,6 +9,7 @@ import App from './App';
 import { AuthProvider } from './context/AuthContext';
 import { UserProfileProvider } from './context/UserProfileContext';
 import './index.css';
+import './i18n';
 
 const queryClient = new QueryClient({
   defaultOptions: {

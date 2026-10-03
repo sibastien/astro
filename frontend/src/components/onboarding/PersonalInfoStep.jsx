@@ -1,13 +1,12 @@
 import { useState, useMemo } from 'react';
-import { ArrowRight, ArrowLeft, Calendar, Clock, MapPin, Sparkles, Check } from 'lucide-react';
+import { ArrowRight, ArrowLeft } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { calculateSunSign } from '@/context/UserProfileContext';
 
 export default function PersonalInfoStep({ onComplete, onBack }) {
-  // Sub-stage within Screen 2:
-  // 1: Name
-  // 2: Date of birth
-  // 3: Time of birth (optional)
-  // 4: Place of birth (optional)
+  const { t, i18n } = useTranslation();
+  const isFr = (i18n.language || '').startsWith('fr');
+
   const [subStage, setSubStage] = useState(1);
 
   const [formData, setFormData] = useState({
@@ -28,7 +27,7 @@ export default function PersonalInfoStep({ onComplete, onBack }) {
   const handleNameNext = (e) => {
     e?.preventDefault();
     if (!formData.name.trim()) {
-      setError('Please provide your name to personalize your reading.');
+      setError(t('onboarding.nameError'));
       return;
     }
     setError('');
@@ -38,7 +37,7 @@ export default function PersonalInfoStep({ onComplete, onBack }) {
   const handleDateNext = (e) => {
     e?.preventDefault();
     if (!formData.birthDate) {
-      setError('Please select your date of birth.');
+      setError(t('onboarding.dobError'));
       return;
     }
     setError('');
@@ -70,7 +69,7 @@ export default function PersonalInfoStep({ onComplete, onBack }) {
 
   return (
     <div className="min-h-[88vh] flex flex-col justify-center items-center px-4 sm:px-6 py-10 max-w-xl mx-auto">
-      {/* Step header & Subtle progress indicator: 01 / 03 or 02 / 04 */}
+      {/* Step header & Subtle progress indicator: 01 / 04 */}
       <div className="w-full flex items-center justify-between mb-8 pb-4 border-b border-white/[0.08]">
         <button
           type="button"
@@ -85,11 +84,11 @@ export default function PersonalInfoStep({ onComplete, onBack }) {
           aria-label="Previous step"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
-          <span>Back</span>
+          <span>{t('common.back')}</span>
         </button>
 
         <div className="flex items-center gap-3">
-          <span className="text-xs font-mono text-slate-500 uppercase tracking-wider">Profile</span>
+          <span className="text-xs font-mono text-slate-500 uppercase tracking-wider">{t('common.profile')}</span>
           <span className="text-xs font-mono font-medium text-accent-400 bg-accent-500/10 px-2 py-0.5 rounded border border-accent-500/20">
             0{subStage} / 04
           </span>
@@ -104,25 +103,25 @@ export default function PersonalInfoStep({ onComplete, onBack }) {
           <form onSubmit={handleNameNext} className="space-y-6 animate-fade-in">
             <div>
               <p className="text-xs font-mono uppercase tracking-widest text-accent-400 mb-2">
-                01 · Identity
+                {t('onboarding.step01')}
               </p>
               <h2 className="editorial-title text-2xl sm:text-3xl font-semibold mb-2">
-                First, tell us a little about you.
+                {t('onboarding.step01Title')}
               </h2>
               <p className="editorial-sub text-sm sm:text-base text-slate-400">
-                Your name will be used to calibrate your personal insight stream.
+                {t('onboarding.step01Desc')}
               </p>
             </div>
 
             <div className="space-y-2">
               <label htmlFor="name-input" className="block text-xs font-mono text-slate-300 uppercase tracking-wider">
-                Full name or preferred name
+                {t('onboarding.nameLabel')}
               </label>
               <input
                 id="name-input"
                 type="text"
                 autoFocus
-                placeholder="e.g. Clara Dupont"
+                placeholder={t('onboarding.namePlaceholder')}
                 value={formData.name}
                 onChange={(e) => {
                   setFormData({ ...formData, name: e.target.value });
@@ -139,7 +138,7 @@ export default function PersonalInfoStep({ onComplete, onBack }) {
                 id="name-continue-btn"
                 className="btn-primary w-full sm:w-auto px-6 py-3"
               >
-                <span>Continue</span>
+                <span>{t('common.continue')}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
@@ -151,19 +150,19 @@ export default function PersonalInfoStep({ onComplete, onBack }) {
           <form onSubmit={handleDateNext} className="space-y-6 animate-fade-in">
             <div>
               <p className="text-xs font-mono uppercase tracking-widest text-accent-400 mb-2">
-                02 · Solar Calibration
+                {t('onboarding.step02')}
               </p>
               <h2 className="editorial-title text-2xl sm:text-3xl font-semibold mb-2">
-                When were you born?
+                {t('onboarding.step02Title')}
               </h2>
               <p className="editorial-sub text-sm sm:text-base text-slate-400">
-                Your date of birth unlocks your Sun sign and foundational celestial polarity.
+                {t('onboarding.step02Desc')}
               </p>
             </div>
 
             <div className="space-y-2">
               <label htmlFor="dob-input" className="block text-xs font-mono text-slate-300 uppercase tracking-wider">
-                Date of birth
+                {t('onboarding.dobLabel')}
               </label>
               <div className="relative">
                 <input
@@ -189,14 +188,14 @@ export default function PersonalInfoStep({ onComplete, onBack }) {
                   <span className="text-2xl font-display text-accent-300">{liveSign.symbol}</span>
                   <div>
                     <p className="text-sm font-semibold text-slate-100 font-display">
-                      Sun in {liveSign.name} ({liveSign.nameEn})
+                      {t('onboarding.sunIn')} {isFr ? liveSign.name : (liveSign.nameEn || liveSign.name)}
                     </p>
                     <p className="text-xs text-slate-400 font-mono">
-                      Element: {liveSign.element} · Ruler: {liveSign.rulingPlanet}
+                      {t('onboarding.element')}: {liveSign.element} · {t('onboarding.ruler')}: {liveSign.rulingPlanet}
                     </p>
                   </div>
                 </div>
-                <span className="mono-badge-accent">Detected</span>
+                <span className="mono-badge-accent">{t('common.detected')}</span>
               </div>
             )}
 
@@ -206,7 +205,7 @@ export default function PersonalInfoStep({ onComplete, onBack }) {
                 id="dob-continue-btn"
                 className="btn-primary w-full sm:w-auto px-6 py-3"
               >
-                <span>Continue</span>
+                <span>{t('common.continue')}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
@@ -218,19 +217,19 @@ export default function PersonalInfoStep({ onComplete, onBack }) {
           <form onSubmit={handleTimeNext} className="space-y-6 animate-fade-in">
             <div>
               <p className="text-xs font-mono uppercase tracking-widest text-accent-400 mb-2">
-                03 · Ascendant & Houses · Optional
+                {t('onboarding.step03')}
               </p>
               <h2 className="editorial-title text-2xl sm:text-3xl font-semibold mb-2">
-                Do you know your birth time?
+                {t('onboarding.step03Title')}
               </h2>
               <p className="editorial-sub text-sm sm:text-base text-slate-400">
-                Exact time allows high-precision Ascendant (Rising sign) and house calculations. If you're not sure, you can safely skip.
+                {t('onboarding.step03Desc')}
               </p>
             </div>
 
             <div className="space-y-2">
               <label htmlFor="time-input" className="block text-xs font-mono text-slate-300 uppercase tracking-wider">
-                Birth time (24-hour format)
+                {t('onboarding.timeLabel')}
               </label>
               <div className="relative">
                 <input
@@ -250,7 +249,7 @@ export default function PersonalInfoStep({ onComplete, onBack }) {
                 id="time-continue-btn"
                 className="btn-primary w-full sm:w-auto px-6 py-3"
               >
-                <span>Save & Continue</span>
+                <span>{t('onboarding.saveAndContinue')}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
               <button
@@ -259,7 +258,7 @@ export default function PersonalInfoStep({ onComplete, onBack }) {
                 onClick={handleSkipTime}
                 className="btn-secondary w-full sm:w-auto px-5 py-3 text-slate-400 hover:text-slate-200"
               >
-                Skip for now
+                {t('common.skip')}
               </button>
             </div>
           </form>
@@ -270,26 +269,26 @@ export default function PersonalInfoStep({ onComplete, onBack }) {
           <form onSubmit={handleFinish} className="space-y-6 animate-fade-in">
             <div>
               <p className="text-xs font-mono uppercase tracking-widest text-accent-400 mb-2">
-                04 · Geographic Horizon · Optional
+                {t('onboarding.step04')}
               </p>
               <h2 className="editorial-title text-2xl sm:text-3xl font-semibold mb-2">
-                Where were you born?
+                {t('onboarding.step04Title')}
               </h2>
               <p className="editorial-sub text-sm sm:text-base text-slate-400">
-                Determines the exact latitude and longitude for celestial house projection.
+                {t('onboarding.step04Desc')}
               </p>
             </div>
 
             <div className="space-y-2">
               <label htmlFor="place-input" className="block text-xs font-mono text-slate-300 uppercase tracking-wider">
-                City, Country
+                {t('onboarding.placeLabel')}
               </label>
               <div className="relative">
                 <input
                   id="place-input"
                   type="text"
                   autoFocus
-                  placeholder="e.g. Paris, France or Lyon"
+                  placeholder={t('onboarding.placePlaceholder')}
                   value={formData.birthPlace}
                   onChange={(e) => setFormData({ ...formData, birthPlace: e.target.value })}
                   className="w-full px-4 py-3.5 bg-black/40 border border-white/[0.12] rounded-lg text-slate-100 placeholder-slate-600 focus:outline-none focus:border-accent-500 focus:ring-1 focus:ring-accent-500 text-base transition-all"
@@ -299,8 +298,8 @@ export default function PersonalInfoStep({ onComplete, onBack }) {
 
             {/* Quick popular city shortcuts */}
             <div className="flex flex-wrap gap-2 text-xs">
-              <span className="text-slate-500 font-mono py-1">Quick select:</span>
-              {['Paris, France', 'Lyon, France', 'Marseille, France', 'Bruxelles, Belgique', 'Montréal, Canada'].map((city) => (
+              <span className="text-slate-500 font-mono py-1">{t('onboarding.quickSelect')}</span>
+              {['Paris, France', 'London, UK', 'New York, USA', 'Bruxelles, Belgique', 'Montréal, Canada'].map((city) => (
                 <button
                   type="button"
                   key={city}
@@ -318,7 +317,7 @@ export default function PersonalInfoStep({ onComplete, onBack }) {
                 id="finish-profile-btn"
                 className="btn-primary w-full sm:w-auto px-6 py-3"
               >
-                <span>Complete Profile</span>
+                <span>{t('onboarding.completeProfile')}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
               <button
@@ -327,7 +326,7 @@ export default function PersonalInfoStep({ onComplete, onBack }) {
                 onClick={handleSkipPlace}
                 className="btn-secondary w-full sm:w-auto px-5 py-3 text-slate-400 hover:text-slate-200"
               >
-                Skip for now
+                {t('common.skip')}
               </button>
             </div>
           </form>

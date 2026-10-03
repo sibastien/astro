@@ -12,12 +12,15 @@ import {
   Orbit,
   Sparkles
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useUserProfile } from '@/context/UserProfileContext';
 import { useAuth } from '@/context/AuthContext';
 import ExploreDrawer from './ExploreDrawer';
 import ProfileModal from '../profile/ProfileModal';
+import LanguageSwitcher from './LanguageSwitcher';
 
 export default function Navbar() {
+  const { t } = useTranslation();
   const { profile, isOnboardingActive, onboardingStep, updateFocus, resetProfile } = useUserProfile();
   const { user, logout, isAuthenticated } = useAuth();
   const location = useLocation();
@@ -38,12 +41,12 @@ export default function Navbar() {
   const currentFocus = profile?.selectedFocus || 'today';
 
   const DESKTOP_NAV_LINKS = [
-    { id: 'home', label: 'Home', action: () => { updateFocus('today'); } },
-    { id: 'today', label: 'Today', action: () => { updateFocus('today'); } },
-    { id: 'love', label: 'Love', action: () => { updateFocus('love'); } },
-    { id: 'career', label: 'Career', action: () => { updateFocus('career'); } },
-    { id: 'birth-chart', label: 'Birth Chart', action: () => { updateFocus('birth-chart'); } },
-    { id: 'forecast', label: 'Forecast', action: () => { updateFocus('forecast'); } },
+    { id: 'home', label: t('common.home'), action: () => { updateFocus('today'); } },
+    { id: 'today', label: t('common.today'), action: () => { updateFocus('today'); } },
+    { id: 'love', label: t('common.love'), action: () => { updateFocus('love'); } },
+    { id: 'career', label: t('common.career'), action: () => { updateFocus('career'); } },
+    { id: 'birth-chart', label: t('common.birthChart'), action: () => { updateFocus('birth-chart'); } },
+    { id: 'forecast', label: t('common.forecast'), action: () => { updateFocus('forecast'); } },
   ];
 
   return (
@@ -73,14 +76,15 @@ export default function Navbar() {
               </div>
             </Link>
 
-            {/* If minimal onboarding, show almost nothing except subtle sign in */}
+            {/* If minimal onboarding, show almost nothing except language switcher & subtle sign in */}
             {isMinimalOnboarding ? (
               <div className="flex items-center gap-3">
+                <LanguageSwitcher compact />
                 <Link
                   to="/connexion"
                   className="text-xs font-mono text-slate-400 hover:text-slate-200 transition-colors"
                 >
-                  Sign in
+                  {t('common.signIn')}
                 </Link>
               </div>
             ) : (
@@ -106,8 +110,10 @@ export default function Navbar() {
                   })}
                 </nav>
 
-                {/* Right controls: Profile chip & Secondary explore */}
+                {/* Right controls: Language, Explore & Profile chip */}
                 <div className="hidden md:flex items-center gap-3">
+                  <LanguageSwitcher compact />
+
                   <button
                     onClick={() => setIsExploreOpen(true)}
                     id="explore-trigger-btn"
@@ -132,13 +138,14 @@ export default function Navbar() {
                     </button>
                   ) : (
                     <Link to="/connexion" className="btn-secondary text-xs px-3.5 py-1.5">
-                      Connexion
+                      {t('common.signIn')}
                     </Link>
                   )}
                 </div>
 
-                {/* Mobile top trigger for explore */}
+                {/* Mobile top trigger */}
                 <div className="md:hidden flex items-center gap-2">
+                  <LanguageSwitcher compact />
                   <button
                     onClick={() => setIsExploreOpen(true)}
                     className="p-2 rounded-lg bg-white/[0.04] border border-white/[0.08] text-slate-300"
@@ -171,7 +178,7 @@ export default function Navbar() {
             }`}
           >
             <Orbit className="w-4 h-4" />
-            <span className="text-[10px]">Home</span>
+            <span className="text-[10px]">{t('common.home')}</span>
           </button>
 
           {/* Today */}
@@ -185,7 +192,7 @@ export default function Navbar() {
             }`}
           >
             <Sun className="w-4 h-4" />
-            <span className="text-[10px]">Today</span>
+            <span className="text-[10px]">{t('common.today')}</span>
           </button>
 
           {/* Explore */}
@@ -195,7 +202,7 @@ export default function Navbar() {
             className="flex flex-col items-center gap-1 py-1 px-3 text-xs font-mono text-slate-400 hover:text-slate-200 transition-colors"
           >
             <Grid className="w-4 h-4" />
-            <span className="text-[10px]">Explore</span>
+            <span className="text-[10px]">{t('common.explore')}</span>
           </button>
 
           {/* Profile */}
@@ -205,7 +212,7 @@ export default function Navbar() {
             className="flex flex-col items-center gap-1 py-1 px-3 text-xs font-mono text-slate-400 hover:text-slate-200 transition-colors"
           >
             <User className="w-4 h-4" />
-            <span className="text-[10px]">Profile</span>
+            <span className="text-[10px]">{t('common.profile')}</span>
           </button>
         </nav>
       )}

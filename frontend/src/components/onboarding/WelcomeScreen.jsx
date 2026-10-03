@@ -1,6 +1,9 @@
-import { ArrowRight, Compass } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export default function WelcomeScreen({ onStart }) {
+  const { t } = useTranslation();
+
   return (
     <div className="relative min-h-[92vh] flex flex-col justify-center items-center px-4 sm:px-6 py-12 text-center overflow-hidden">
       {/* Subtle ambient focal glow */}
@@ -12,17 +15,17 @@ export default function WelcomeScreen({ onStart }) {
         {/* Subtle geometric emblem */}
         <div className="mb-8 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-surface border border-white/[0.08] text-xs font-mono text-slate-300 tracking-wider uppercase animate-fade-in">
           <span className="w-1.5 h-1.5 rounded-full bg-accent-400 animate-pulse-subtle" />
-          Astrological Intelligence System
+          {t('welcome.badge')}
         </div>
 
         {/* Headline */}
         <h1 className="editorial-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold mb-6 tracking-tight animate-fade-in">
-          Discover what the stars say about you.
+          {t('welcome.title')}
         </h1>
 
         {/* Supporting text */}
         <p className="editorial-sub text-lg sm:text-xl text-slate-400 max-w-xl mx-auto mb-10 leading-relaxed animate-fade-in">
-          Create your personal profile and begin your reading.
+          {t('welcome.subtitle')}
         </p>
 
         {/* Primary button */}
@@ -32,18 +35,18 @@ export default function WelcomeScreen({ onStart }) {
             id="begin-reading-btn"
             className="btn-primary text-base px-8 py-3.5 group flex items-center gap-3 w-full sm:w-auto"
           >
-            <span>Begin your reading</span>
+            <span>{t('welcome.button')}</span>
             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
           </button>
         </div>
 
         {/* Subtle credibility markers */}
         <div className="mt-16 pt-8 border-t border-white/[0.06] flex items-center justify-center gap-8 text-xs font-mono text-slate-500 uppercase tracking-widest">
-          <span>Ephemeris Precision</span>
+          <span>{t('welcome.cred1')}</span>
           <span>·</span>
-          <span>Private & Encrypted</span>
+          <span>{t('welcome.cred2')}</span>
           <span>·</span>
-          <span>Instant Alignment</span>
+          <span>{t('welcome.cred3')}</span>
         </div>
       </div>
     </div>

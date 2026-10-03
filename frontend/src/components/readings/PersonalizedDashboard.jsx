@@ -5,20 +5,22 @@ import CareerReadingView from './CareerReadingView';
 import PersonalityReadingView from './PersonalityReadingView';
 import BirthChartReadingView from './BirthChartReadingView';
 import ForecastReadingView from './ForecastReadingView';
-import { Sun, Heart, Briefcase, User, Compass, Calendar, Edit3, Sparkles } from 'lucide-react';
-
-const FOCUS_TABS = [
-  { id: 'today', label: 'Today', icon: Sun },
-  { id: 'love', label: 'Love', icon: Heart },
-  { id: 'career', label: 'Career', icon: Briefcase },
-  { id: 'personality', label: 'Personality', icon: User },
-  { id: 'birth-chart', label: 'Birth Chart', icon: Compass },
-  { id: 'forecast', label: 'Forecast', icon: Calendar },
-];
+import { Sun, Heart, Briefcase, User, Compass, Calendar, Edit3 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export default function PersonalizedDashboard({ onOpenProfile }) {
+  const { t } = useTranslation();
   const { profile, updateFocus } = useUserProfile();
   const currentFocus = profile?.selectedFocus || 'today';
+
+  const FOCUS_TABS = [
+    { id: 'today', label: t('common.today'), icon: Sun },
+    { id: 'love', label: t('common.love'), icon: Heart },
+    { id: 'career', label: t('common.career'), icon: Briefcase },
+    { id: 'personality', label: t('common.personality'), icon: User },
+    { id: 'birth-chart', label: t('common.birthChart'), icon: Compass },
+    { id: 'forecast', label: t('common.forecast'), icon: Calendar },
+  ];
 
   const handleSelectFocus = (focusId) => {
     updateFocus(focusId);

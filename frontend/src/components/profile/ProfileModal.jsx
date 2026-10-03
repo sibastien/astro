@@ -1,8 +1,10 @@
 import { useState } from 'react';
-import { X, User, Calendar, Clock, MapPin, RefreshCw, Check, ArrowRight } from 'lucide-react';
+import { X, Calendar, Clock, MapPin, RefreshCw } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useUserProfile } from '@/context/UserProfileContext';
 
 export default function ProfileModal({ isOpen, onClose }) {
+  const { t } = useTranslation();
   const { profile, updateProfile, resetProfile } = useUserProfile();
 
   const [isEditing, setIsEditing] = useState(false);
@@ -22,7 +24,7 @@ export default function ProfileModal({ isOpen, onClose }) {
   };
 
   const handleReset = () => {
-    if (window.confirm('Reset your profile and restart the guided onboarding?')) {
+    if (window.confirm('Reset your profile and restart the guided onboarding? / Réinitialiser votre profil ?')) {
       resetProfile();
       onClose();
     }
@@ -48,13 +50,13 @@ export default function ProfileModal({ isOpen, onClose }) {
         {/* Header */}
         <div className="mb-6">
           <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-accent-500/10 border border-accent-500/20 text-accent-300 text-xs font-mono uppercase mb-2">
-            <span>ASTROLOGICAL IDENTITY</span>
+            <span>{t('profileModal.title')}</span>
           </div>
           <h2 className="editorial-title text-2xl font-bold text-white">
-            {profile?.name || 'Personal Profile'}
+            {profile?.name || t('common.profile')}
           </h2>
           <p className="text-xs text-slate-400 font-mono mt-1">
-            Calibrated celestial coordinates & personal parameters
+            {t('profileModal.subtitle')}
           </p>
         </div>
 
@@ -65,17 +67,17 @@ export default function ProfileModal({ isOpen, onClose }) {
             <div className="grid grid-cols-3 gap-3 p-4 rounded-lg bg-black/40 border border-white/[0.06] text-center">
               <div>
                 <span className="text-2xl text-accent-300 font-display">{sunSign.symbol}</span>
-                <p className="text-[11px] font-mono text-slate-400 mt-1 uppercase">Sun</p>
+                <p className="text-[11px] font-mono text-slate-400 mt-1 uppercase">{t('profileModal.sun')}</p>
                 <p className="text-xs font-semibold text-white">{sunSign.name}</p>
               </div>
               <div className="border-x border-white/[0.06]">
                 <span className="text-2xl text-pink-300 font-display">{moonSign.symbol}</span>
-                <p className="text-[11px] font-mono text-slate-400 mt-1 uppercase">Moon</p>
+                <p className="text-[11px] font-mono text-slate-400 mt-1 uppercase">{t('profileModal.moon')}</p>
                 <p className="text-xs font-semibold text-white">{moonSign.name}</p>
               </div>
               <div>
                 <span className="text-2xl text-cyanic-300 font-display">{risingSign.symbol}</span>
-                <p className="text-[11px] font-mono text-slate-400 mt-1 uppercase">Rising</p>
+                <p className="text-[11px] font-mono text-slate-400 mt-1 uppercase">{t('profileModal.rising')}</p>
                 <p className="text-xs font-semibold text-white">{risingSign.name}</p>
               </div>
             </div>
@@ -85,26 +87,26 @@ export default function ProfileModal({ isOpen, onClose }) {
               <div className="flex items-center justify-between py-2">
                 <span className="text-slate-400 flex items-center gap-2">
                   <Calendar className="w-3.5 h-3.5 text-accent-400" />
-                  Date of birth
+                  {t('profileModal.dob')}
                 </span>
                 <span className="text-white font-medium">{profile?.birthDate || 'Not specified'}</span>
               </div>
               <div className="flex items-center justify-between py-2">
                 <span className="text-slate-400 flex items-center gap-2">
                   <Clock className="w-3.5 h-3.5 text-accent-400" />
-                  Birth time
+                  {t('profileModal.time')}
                 </span>
-                <span className="text-white font-medium">{profile?.birthTime || 'Approximate (12:00)'}</span>
+                <span className="text-white font-medium">{profile?.birthTime || '12:00'}</span>
               </div>
               <div className="flex items-center justify-between py-2">
                 <span className="text-slate-400 flex items-center gap-2">
                   <MapPin className="w-3.5 h-3.5 text-accent-400" />
-                  Place of birth
+                  {t('profileModal.place')}
                 </span>
-                <span className="text-white font-medium">{profile?.birthPlace || 'Global Coordinates'}</span>
+                <span className="text-white font-medium">{profile?.birthPlace || 'Global Horizon'}</span>
               </div>
               <div className="flex items-center justify-between py-2">
-                <span className="text-slate-400">Dominant element</span>
+                <span className="text-slate-400">{t('profileModal.element')}</span>
                 <span className="text-accent-300 font-semibold">{sunSign.element}</span>
               </div>
             </div>
@@ -115,14 +117,14 @@ export default function ProfileModal({ isOpen, onClose }) {
                 onClick={() => setIsEditing(true)}
                 className="btn-primary w-full text-xs py-2.5"
               >
-                Edit Parameters
+                {t('common.edit')}
               </button>
               <button
                 onClick={handleReset}
                 className="btn-secondary w-full text-xs py-2.5 text-rose-300 hover:text-rose-200 border-rose-500/20 hover:border-rose-500/40"
               >
                 <RefreshCw className="w-3.5 h-3.5 mr-1" />
-                Reset & Restart
+                {t('common.reset')}
               </button>
             </div>
           </div>
@@ -131,7 +133,7 @@ export default function ProfileModal({ isOpen, onClose }) {
           <form onSubmit={handleSave} className="space-y-4">
             <div>
               <label className="block text-xs font-mono text-slate-300 uppercase mb-1">
-                Name
+                {t('onboarding.nameLabel')}
               </label>
               <input
                 type="text"
@@ -144,7 +146,7 @@ export default function ProfileModal({ isOpen, onClose }) {
 
             <div>
               <label className="block text-xs font-mono text-slate-300 uppercase mb-1">
-                Date of birth
+                {t('onboarding.dobLabel')}
               </label>
               <input
                 type="date"
@@ -157,7 +159,7 @@ export default function ProfileModal({ isOpen, onClose }) {
 
             <div>
               <label className="block text-xs font-mono text-slate-300 uppercase mb-1">
-                Birth time (optional)
+                {t('onboarding.timeLabel')}
               </label>
               <input
                 type="time"
@@ -169,7 +171,7 @@ export default function ProfileModal({ isOpen, onClose }) {
 
             <div>
               <label className="block text-xs font-mono text-slate-300 uppercase mb-1">
-                Place of birth (optional)
+                {t('onboarding.placeLabel')}
               </label>
               <input
                 type="text"
@@ -184,14 +186,14 @@ export default function ProfileModal({ isOpen, onClose }) {
                 type="submit"
                 className="btn-primary w-full text-xs py-2.5"
               >
-                Save & Recalibrate
+                {t('profileModal.saveRecalibrate')}
               </button>
               <button
                 type="button"
                 onClick={() => setIsEditing(false)}
                 className="btn-secondary w-full text-xs py-2.5"
               >
-                Cancel
+                {t('common.cancel')}
               </button>
             </div>
           </form>

@@ -1,76 +1,79 @@
 import { Sun, Heart, Briefcase, User, Compass, Calendar, ArrowRight } from 'lucide-react';
-
-const EXPERIENCE_OPTIONS = [
-  {
-    id: 'today',
-    badge: 'DAILY TRANSITS',
-    title: 'TODAY',
-    description: 'Your energy and guidance for today',
-    detail: 'Real-time solar & lunar currents, biorhythm clarity index, and daily focus vectors.',
-    icon: Sun,
-    accentGlow: 'hover:border-accent-400/40',
-  },
-  {
-    id: 'love',
-    badge: 'RELATIONAL DYNAMICS',
-    title: 'LOVE',
-    description: 'Relationships, attraction and emotional energy',
-    detail: 'Venusian harmonic aspects, interpersonal resonance, and emotional vulnerability windows.',
-    icon: Heart,
-    accentGlow: 'hover:border-pink-500/40',
-  },
-  {
-    id: 'career',
-    badge: 'STRATEGIC ALIGNMENT',
-    title: 'CAREER',
-    description: 'Work, ambition and financial direction',
-    detail: 'Midheaven trajectory, Saturnian discipline timing, and capital expansion cycles.',
-    icon: Briefcase,
-    accentGlow: 'hover:border-cyanic-400/40',
-  },
-  {
-    id: 'personality',
-    badge: 'PSYCHOLOGICAL ARCHETYPE',
-    title: 'PERSONALITY',
-    description: 'Understand your strengths and tendencies',
-    detail: 'Triad synthesis (Sun / Moon / Rising), shadow integration, and elemental equilibrium.',
-    icon: User,
-    accentGlow: 'hover:border-purple-400/40',
-  },
-  {
-    id: 'birth-chart',
-    badge: 'CELESTIAL EPHEMERIS',
-    title: 'BIRTH CHART',
-    description: 'Explore your complete astrological profile',
-    detail: '360° planetary coordinate mapping, 12 natal houses, and major harmonic aspects.',
-    icon: Compass,
-    accentGlow: 'hover:border-indigo-400/40',
-  },
-  {
-    id: 'forecast',
-    badge: 'PROJECTION MATRIX',
-    title: 'FORECAST',
-    description: "See what's coming next",
-    detail: 'Upcoming planetary ingresses, lunation shifts, and quarterly opportunity windows.',
-    icon: Calendar,
-    accentGlow: 'hover:border-emerald-400/40',
-  },
-];
+import { useTranslation } from 'react-i18next';
 
 export default function ExperienceSelectionStep({ userName, sunSign, onSelect }) {
+  const { t } = useTranslation();
+
+  const EXPERIENCE_OPTIONS = [
+    {
+      id: 'today',
+      badge: t('experiences.today.badge'),
+      title: t('experiences.today.title'),
+      description: t('experiences.today.desc'),
+      detail: t('experiences.today.detail'),
+      icon: Sun,
+      accentGlow: 'hover:border-accent-400/40',
+    },
+    {
+      id: 'love',
+      badge: t('experiences.love.badge'),
+      title: t('experiences.love.title'),
+      description: t('experiences.love.desc'),
+      detail: t('experiences.love.detail'),
+      icon: Heart,
+      accentGlow: 'hover:border-pink-500/40',
+    },
+    {
+      id: 'career',
+      badge: t('experiences.career.badge'),
+      title: t('experiences.career.title'),
+      description: t('experiences.career.desc'),
+      detail: t('experiences.career.detail'),
+      icon: Briefcase,
+      accentGlow: 'hover:border-cyanic-400/40',
+    },
+    {
+      id: 'personality',
+      badge: t('experiences.personality.badge'),
+      title: t('experiences.personality.title'),
+      description: t('experiences.personality.desc'),
+      detail: t('experiences.personality.detail'),
+      icon: User,
+      accentGlow: 'hover:border-purple-400/40',
+    },
+    {
+      id: 'birth-chart',
+      badge: t('experiences.birthChart.badge'),
+      title: t('experiences.birthChart.title'),
+      description: t('experiences.birthChart.desc'),
+      detail: t('experiences.birthChart.detail'),
+      icon: Compass,
+      accentGlow: 'hover:border-indigo-400/40',
+    },
+    {
+      id: 'forecast',
+      badge: t('experiences.forecast.badge'),
+      title: t('experiences.forecast.title'),
+      description: t('experiences.forecast.desc'),
+      detail: t('experiences.forecast.detail'),
+      icon: Calendar,
+      accentGlow: 'hover:border-emerald-400/40',
+    },
+  ];
+
   return (
     <div className="min-h-[90vh] flex flex-col justify-center px-4 sm:px-6 py-12 max-w-6xl mx-auto">
       {/* Editorial Header */}
       <div className="text-center max-w-2xl mx-auto mb-12 animate-fade-in">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-500/10 border border-accent-500/20 text-accent-300 text-xs font-mono tracking-wider uppercase mb-4">
           <span>{sunSign?.symbol || '✦'}</span>
-          <span>Calibrated for {userName || 'You'}</span>
+          <span>{t('onboarding.calibratedFor')} {userName || 'You'}</span>
         </div>
         <h2 className="editorial-title text-3xl sm:text-4xl md:text-5xl font-semibold mb-4">
-          What would you like to explore first?
+          {t('onboarding.chooseTitle')}
         </h2>
         <p className="editorial-sub text-base sm:text-lg text-slate-400">
-          Your celestial coordinates are mapped. Select your primary intelligence lens to generate your opening report.
+          {t('onboarding.chooseDesc')}
         </p>
       </div>
 
@@ -114,7 +117,7 @@ export default function ExperienceSelectionStep({ userName, sunSign, onSelect })
 
               {/* Action trigger */}
               <div className="pt-6 mt-6 border-t border-white/[0.06] flex items-center justify-between text-xs font-mono text-slate-400 group-hover:text-white transition-colors">
-                <span>Enter reading</span>
+                <span>{t('onboarding.enterReading')}</span>
                 <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1 text-accent-400" />
               </div>
             </button>
