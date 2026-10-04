@@ -17,6 +17,7 @@ export default function ExploreDrawer({ isOpen, onClose }) {
   ];
 
   const SECONDARY_MODULES = [
+    { to: '/blog', title: 'Blog Astrologie', desc: 'Guides, analyses cosmiques et actualités', icon: BookOpen },
     { to: '/signes-du-zodiaque', title: '12 Zodiac Signs', desc: 'In-depth astronomical sign catalog', icon: Orbit },
     { to: '/lune', title: 'Lunar Cycles & Phases', desc: 'Real-time moon illumination tracking', icon: Moon },
     { to: '/compatibilite', title: 'Resonance & Synergy', desc: 'Multi-sign compatibility matrix', icon: Sparkles },

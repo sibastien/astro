@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Core Platform -->
+  <url>
+    <loc>https://astrofrance.fr/</loc>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://astrofrance.fr/horoscope</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Blog Section -->
+  <url>
+    <loc>https://astrofrance.fr/blog</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://astrofrance.fr/blog/categorie/astrologie</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://astrofrance.fr/blog/categorie/tarot</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://astrofrance.fr/blog/categorie/lune-cycles</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://astrofrance.fr/blog/categorie/compatibilite</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://astrofrance.fr/blog/categorie/spiritualite</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Astrological Tools -->
+  <url>
+    <loc>https://astrofrance.fr/signes-du-zodiaque</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://astrofrance.fr/tarot</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://astrofrance.fr/lune</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://astrofrance.fr/compatibilite</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://astrofrance.fr/articles</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- 12 Signs -->
+  <url><loc>https://astrofrance.fr/horoscope/belier</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://astrofrance.fr/horoscope/taureau</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://astrofrance.fr/horoscope/gemeaux</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://astrofrance.fr/horoscope/cancer</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://astrofrance.fr/horoscope/lion</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://astrofrance.fr/horoscope/vierge</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://astrofrance.fr/horoscope/balance</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://astrofrance.fr/horoscope/scorpion</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://astrofrance.fr/horoscope/sagittaire</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://astrofrance.fr/horoscope/capricorne</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://astrofrance.fr/horoscope/verseau</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://astrofrance.fr/horoscope/poissons</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+</urlset>

@@ -164,6 +164,41 @@ model TarotCard {
 }
 
 // ─────────────────────────────────────────────────────────────
+// BLOG CATEGORY
+// ─────────────────────────────────────────────────────────────
+
+model BlogCategory {
+  id          String    @id @default(cuid())
+  name        String    @unique       // "Astrologie"
+  slug        String    @unique       // "astrologie"
+  description String?   @db.Text
+  color       String?                 // hex color for UI
+  icon        String?                 // emoji or icon name
+  order       Int       @default(0)
+  isActive    Boolean   @default(true)
+  articles    Article[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("blog_categories")
+}
+
+// ─────────────────────────────────────────────────────────────
+// BLOG TAG
+// ─────────────────────────────────────────────────────────────
+
+model BlogTag {
+  id        String    @id @default(cuid())
+  name      String    @unique       // "Mercure Rétrograde"
+  slug      String    @unique       // "mercure-retrograde"
+  articles  Article[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@map("blog_tags")
+}
+
+// ─────────────────────────────────────────────────────────────
 // ARTICLE
 // ─────────────────────────────────────────────────────────────
 
@@ -175,13 +210,18 @@ model Article {
   content         String        @db.Text
   coverImage      String?
   status          ArticleStatus @default(DRAFT)
-  tags            String[]
-  category        String        @default("Astrologie")
+  tags            String[]      // legacy tag strings
+  blogTags        BlogTag[]     // relational tags
+  category        String        @default("Astrologie")  // legacy string
+  blogCategoryId  String?
+  blogCategory    BlogCategory? @relation(fields: [blogCategoryId], references: [id])
   metaTitle       String?
   metaDescription String?
   readingTimeMin  Int?
   viewCount       Int           @default(0)
+  isFeatured      Boolean       @default(false)
   authorId        String?
+  scheduledAt     DateTime?     // for scheduled publishing
   publishedAt     DateTime?
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
@@ -189,6 +229,8 @@ model Article {
   @@index([slug])
   @@index([status])
   @@index([publishedAt])
+  @@index([blogCategoryId])
+  @@index([isFeatured])
   @@map("articles")
 }
 

@@ -22,8 +22,10 @@ const tarotRoutes = require('./modules/tarot/tarot.routes');
 const moonRoutes = require('./modules/moon/moon.routes');
 const compatibilityRoutes = require('./modules/compatibility/compatibility.routes');
 const articleRoutes = require('./modules/articles/articles.routes');
+const blogRoutes = require('./modules/blog/blog.routes');
 const birthChartRoutes = require('./modules/birth-chart/birthChart.routes');
 const adminRoutes = require('./modules/admin/admin.routes');
+const seoRoutes = require('./modules/seo/seo.routes');
 
 const app = express();
 
@@ -84,8 +86,16 @@ app.use(`${API}/tarot`, tarotRoutes);
 app.use(`${API}/moon`, moonRoutes);
 app.use(`${API}/compatibility`, compatibilityRoutes);
 app.use(`${API}/articles`, articleRoutes);
+app.use(`${API}/blog`, blogRoutes);
 app.use(`${API}/birth-chart`, birthChartRoutes);
 app.use(`${API}/admin`, adminRoutes);
+app.use(`${API}/seo`, seoRoutes);
+
+// ── Top-level SEO shortcuts (so crawlers find them at root) ──
+app.get('/sitemap.xml', (req, res) => res.redirect(301, `${API}/seo/sitemap.xml`));
+app.get('/robots.txt', (req, res) => res.redirect(301, `${API}/seo/robots.txt`));
+app.get('/rss.xml', (req, res) => res.redirect(301, `${API}/seo/rss.xml`));
+app.get('/feed', (req, res) => res.redirect(301, `${API}/seo/rss.xml`));
 
 // ── 404 & Error Handling ─────────────────────────────────────
 app.use(notFound);

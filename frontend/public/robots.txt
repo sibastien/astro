@@ -1,0 +1,15 @@
+# AstroFrance - Robots.txt
+# https://astrofrance.fr
+
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /api/
+Disallow: /connexion
+Disallow: /inscription
+
+# Sitemaps
+Sitemap: https://astrofrance.fr/sitemap.xml
+
+# Crawl-delay
+Crawl-delay: 1

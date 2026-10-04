@@ -135,6 +135,19 @@ export default function Navbar() {
                   >
                     Horoscope
                   </Link>
+
+                  {/* Direct Blog Link */}
+                  <Link
+                    to="/blog"
+                    id="nav-link-blog"
+                    className={`px-3 py-1.5 rounded-full text-xs font-mono tracking-wider uppercase transition-all duration-200 ${
+                      location.pathname.startsWith('/blog')
+                        ? 'bg-white text-space-950 font-bold shadow-subtle'
+                        : 'text-slate-400 hover:text-white hover:bg-white/[0.04]'
+                    }`}
+                  >
+                    Blog
+                  </Link>
                 </nav>
 
                 {/* Right controls: Language, Admin button, Explore & Profile chip */}

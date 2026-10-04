@@ -12,6 +12,7 @@ export default function Footer() {
 
   const QUICK_LINKS = [
     { label: 'Today Transit', to: '/' },
+    { label: 'Blog Astrologie', to: '/blog' },
     { label: 'Zodiac Signs', to: '/signes-du-zodiaque' },
     { label: 'Moon Phases', to: '/lune' },
     { label: 'Compatibility', to: '/compatibilite' },
@@ -82,6 +83,13 @@ export default function Footer() {
         {/* Bottom copyright row */}
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] font-mono text-slate-500">
           <p>© {new Date().getFullYear()} ASTRA Intelligence. All rights reserved.</p>
+          <div className="flex items-center gap-4 text-[10px]">
+            <a href="/sitemap.xml" target="_blank" rel="noreferrer" className="hover:text-gold-400 transition-colors">Sitemap XML</a>
+            <span>•</span>
+            <a href="/robots.txt" target="_blank" rel="noreferrer" className="hover:text-gold-400 transition-colors">Robots.txt</a>
+            <span>•</span>
+            <a href="/rss.xml" target="_blank" rel="noreferrer" className="hover:text-gold-400 transition-colors">Flux RSS</a>
+          </div>
           <p className="text-slate-600">Designed for personal clarity and strategic timing.</p>
         </div>
       </div>

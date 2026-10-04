@@ -311,7 +311,55 @@ async function main() {
   }
   console.log(`✅ ${MAJOR_ARCANA.length} cartes de Tarot insérées.`);
 
-  console.log('\n🎉 Seed terminé ! Les 12 signes et les cartes de Tarot sont prêts.');
+  // Seed Blog Categories
+  console.log('\n📚 Création des catégories du Blog...');
+  const DEFAULT_CATEGORIES = [
+    { name: 'Astrologie', slug: 'astrologie', description: 'Transits planétaires, maisons astrologiques et archétypes du zodiaque.', icon: '🪐', color: '#6366f1' },
+    { name: 'Tarot & Cartomancie', slug: 'tarot', description: 'Interprétations des arcanes, tirages divinatoires et symbolisme.', icon: '🔮', color: '#ec4899' },
+    { name: 'Phases Lunaires', slug: 'lune-cycles', description: 'Nouvelle Lune, Pleine Lune, rituels lunaires et influences émotionnelles.', icon: '🌙', color: '#38bdf8' },
+    { name: 'Compatibilité Amoureuse', slug: 'compatibilite', description: 'Synastrie astrale, alchimie relationnelle et harmonies de signes.', icon: '❤️', color: '#f43f5e' },
+    { name: 'Spiritualité & Rituels', slug: 'spiritualite', description: 'Méditations guidées, pierres protectrices et guidance intuitive.', icon: '✨', color: '#eab308' },
+  ];
+
+  for (const cat of DEFAULT_CATEGORIES) {
+    try {
+      await prisma.blogCategory.upsert({
+        where: { slug: cat.slug },
+        update: cat,
+        create: cat,
+      });
+      console.log(`✅ Catégorie blog "${cat.name}" prête.`);
+    } catch (e) {
+      // Table may not exist yet
+    }
+  }
+
+  // Seed Blog Tags
+  console.log('\n🏷️ Création des tags de Blog...');
+  const DEFAULT_TAGS = [
+    { name: 'Mercure Rétrograde', slug: 'mercure-retrograde' },
+    { name: 'Pleine Lune', slug: 'pleine-lune' },
+    { name: 'Horoscope 2026', slug: 'horoscope-2026' },
+    { name: 'Signe Solaire', slug: 'signe-solaire' },
+    { name: 'Ascendant', slug: 'ascendant' },
+    { name: 'Synastrie', slug: 'synastrie' },
+    { name: 'Arcanes Majeurs', slug: 'arcanes-majeurs' },
+  ];
+
+  for (const tag of DEFAULT_TAGS) {
+    try {
+      await prisma.blogTag.upsert({
+        where: { slug: tag.slug },
+        update: tag,
+        create: tag,
+      });
+      console.log(`✅ Tag blog "#${tag.name}" prêt.`);
+    } catch (e) {
+      // Table may not exist yet
+    }
+  }
+
+  console.log('\n🎉 Seed terminé ! Les signes, le Tarot et le Blog sont prêts.');
 }
 
 main()

@@ -5,6 +5,7 @@ import { useAuth } from '@/context/AuthContext';
 import SEOMeta from '@/components/seo/SEOMeta';
 import api from '@/lib/api';
 import toast from 'react-hot-toast';
+import AdminBlogManager from '@/components/admin/AdminBlogManager';
 import {
   ShieldCheck,
   Users,
@@ -18,11 +19,13 @@ import {
   CheckCircle2,
   AlertTriangle,
   RefreshCw,
+  FileText,
 } from 'lucide-react';
 
 export default function AdminDashboardPage() {
   const { user, isAuthenticated } = useAuth();
   const queryClient = useQueryClient();
+  const [activeAdminTab, setActiveAdminTab] = useState('blog'); // 'blog' | 'engines' | 'users'
   const [searchUser, setSearchUser] = useState('');
   const [page, setPage] = useState(1);
 
@@ -248,78 +251,133 @@ export default function AdminDashboardPage() {
 
           </div>
 
-          {/* Quick Engine Actions (Horoscope Generation & Tarot Sync) */}
-          <div className="glass-surface p-6 rounded-2xl border border-white/[0.08] space-y-4">
-            <h3 className="text-sm font-bold text-white uppercase tracking-wider font-mono flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-accent-400" />
-              Moteurs Automatiques & Synchronisation
-            </h3>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              
-              {/* Action 1: Sync Horoscopes */}
-              <div className="p-4 rounded-xl bg-black/40 border border-white/[0.06] flex flex-col justify-between space-y-3">
-                <div>
-                  <h4 className="text-sm font-semibold text-white">Générateur d'Horoscopes</h4>
-                  <p className="text-xs text-slate-400 mt-1">
-                    Génère instantanément les 48 transits du jour (12 signes × 4 catégories) en français.
-                  </p>
-                </div>
-                <button
-                  onClick={() => syncHoroscopesMutation.mutate()}
-                  disabled={syncHoroscopesMutation.isPending}
-                  className="btn-primary text-xs py-2 px-3 flex items-center justify-center gap-2 uppercase tracking-wider font-mono"
-                >
-                  <RotateCw className={`w-3.5 h-3.5 ${syncHoroscopesMutation.isPending ? 'animate-spin' : ''}`} />
-                  <span>{syncHoroscopesMutation.isPending ? 'Génération en cours...' : 'Générer Horoscopes Aujourd\'hui'}</span>
-                </button>
-              </div>
+          {/* Navigation Tabs Bar */}
+          <div className="flex items-center gap-2 border-b border-white/[0.08] pb-1 overflow-x-auto">
+            <button
+              onClick={() => setActiveAdminTab('blog')}
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-mono tracking-wider uppercase transition-all ${
+                activeAdminTab === 'blog'
+                  ? 'bg-gold-500/20 text-gold-300 border border-gold-500/40 font-bold shadow-sm'
+                  : 'text-stardust-400 hover:text-white hover:bg-white/[0.04]'
+              }`}
+            >
+              <FileText className="w-4 h-4 text-gold-400" />
+              <span>Blog & Articles (WordPress)</span>
+              <span className="ml-1 text-[10px] px-1.5 py-0.2 rounded-full bg-gold-500/20 text-gold-300">
+                {stats?.articles ?? 0}
+              </span>
+            </button>
 
-              {/* Action 2: Seed Tarot */}
-              <div className="p-4 rounded-xl bg-black/40 border border-white/[0.06] flex flex-col justify-between space-y-3">
-                <div>
-                  <h4 className="text-sm font-semibold text-white">Base de Données Tarot</h4>
-                  <p className="text-xs text-slate-400 mt-1">
-                    Synchronise et injecte les 22 Arcanes Majeurs avec illustrations et interprétations.
-                  </p>
-                </div>
-                <button
-                  onClick={() => seedTarotMutation.mutate()}
-                  disabled={seedTarotMutation.isPending}
-                  className="btn-secondary text-xs py-2 px-3 flex items-center justify-center gap-2 uppercase tracking-wider font-mono"
-                >
-                  <Compass className={`w-3.5 h-3.5 ${seedTarotMutation.isPending ? 'animate-spin' : ''}`} />
-                  <span>{seedTarotMutation.isPending ? 'Synchronisation...' : 'Synchroniser Tarot'}</span>
-                </button>
-              </div>
+            <button
+              onClick={() => setActiveAdminTab('engines')}
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-mono tracking-wider uppercase transition-all ${
+                activeAdminTab === 'engines'
+                  ? 'bg-accent-500/20 text-accent-300 border border-accent-500/40 font-bold shadow-sm'
+                  : 'text-stardust-400 hover:text-white hover:bg-white/[0.04]'
+              }`}
+            >
+              <Sparkles className="w-4 h-4 text-accent-400" />
+              <span>Moteurs & Sync</span>
+            </button>
 
-              {/* Action 3: Prisma Studio info */}
-              <div className="p-4 rounded-xl bg-black/40 border border-white/[0.06] flex flex-col justify-between space-y-3">
-                <div>
-                  <h4 className="text-sm font-semibold text-white">Prisma Studio GUI</h4>
-                  <p className="text-xs text-slate-400 mt-1">
-                    Ouvrez le visualiseur direct PostgreSQL en exécutant dans le terminal :
-                  </p>
-                  <code className="text-accent-300 block bg-black/60 p-1.5 rounded text-[11px] font-mono mt-1">
-                    npm run db:studio
-                  </code>
-                </div>
-                <a
-                  href="http://localhost:5555"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-xs font-mono text-slate-400 hover:text-white flex items-center gap-1.5 justify-end"
-                >
-                  <span>Ouvrir localhost:5555</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
-                </a>
-              </div>
-
-            </div>
+            <button
+              onClick={() => setActiveAdminTab('users')}
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-mono tracking-wider uppercase transition-all ${
+                activeAdminTab === 'users'
+                  ? 'bg-blue-500/20 text-blue-300 border border-blue-500/40 font-bold shadow-sm'
+                  : 'text-stardust-400 hover:text-white hover:bg-white/[0.04]'
+              }`}
+            >
+              <Users className="w-4 h-4 text-blue-400" />
+              <span>Utilisateurs</span>
+              <span className="ml-1 text-[10px] px-1.5 py-0.2 rounded-full bg-blue-500/20 text-blue-300">
+                {stats?.users ?? 0}
+              </span>
+            </button>
           </div>
 
-          {/* User Management Section */}
-          <div className="glass-surface p-6 rounded-2xl border border-white/[0.08] space-y-5">
+          {/* TAB 1: Blog & Articles Manager */}
+          {activeAdminTab === 'blog' && (
+            <div className="glass-surface p-6 rounded-2xl border border-white/[0.08]">
+              <AdminBlogManager />
+            </div>
+          )}
+
+          {/* TAB 2: Quick Engine Actions (Horoscope Generation & Tarot Sync) */}
+          {activeAdminTab === 'engines' && (
+            <div className="glass-surface p-6 rounded-2xl border border-white/[0.08] space-y-4">
+              <h3 className="text-sm font-bold text-white uppercase tracking-wider font-mono flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-accent-400" />
+                Moteurs Automatiques & Synchronisation
+              </h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                
+                {/* Action 1: Sync Horoscopes */}
+                <div className="p-4 rounded-xl bg-black/40 border border-white/[0.06] flex flex-col justify-between space-y-3">
+                  <div>
+                    <h4 className="text-sm font-semibold text-white">Générateur d'Horoscopes</h4>
+                    <p className="text-xs text-slate-400 mt-1">
+                      Génère instantanément les 48 transits du jour (12 signes × 4 catégories) en français.
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => syncHoroscopesMutation.mutate()}
+                    disabled={syncHoroscopesMutation.isPending}
+                    className="btn-primary text-xs py-2 px-3 flex items-center justify-center gap-2 uppercase tracking-wider font-mono"
+                  >
+                    <RotateCw className={`w-3.5 h-3.5 ${syncHoroscopesMutation.isPending ? 'animate-spin' : ''}`} />
+                    <span>{syncHoroscopesMutation.isPending ? 'Génération en cours...' : 'Générer Horoscopes Aujourd\'hui'}</span>
+                  </button>
+                </div>
+
+                {/* Action 2: Seed Tarot */}
+                <div className="p-4 rounded-xl bg-black/40 border border-white/[0.06] flex flex-col justify-between space-y-3">
+                  <div>
+                    <h4 className="text-sm font-semibold text-white">Base de Données Tarot</h4>
+                    <p className="text-xs text-slate-400 mt-1">
+                      Synchronise et injecte les 22 Arcanes Majeurs avec illustrations et interprétations.
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => seedTarotMutation.mutate()}
+                    disabled={seedTarotMutation.isPending}
+                    className="btn-secondary text-xs py-2 px-3 flex items-center justify-center gap-2 uppercase tracking-wider font-mono"
+                  >
+                    <Compass className={`w-3.5 h-3.5 ${seedTarotMutation.isPending ? 'animate-spin' : ''}`} />
+                    <span>{seedTarotMutation.isPending ? 'Synchronisation...' : 'Synchroniser Tarot'}</span>
+                  </button>
+                </div>
+
+                {/* Action 3: Prisma Studio info */}
+                <div className="p-4 rounded-xl bg-black/40 border border-white/[0.06] flex flex-col justify-between space-y-3">
+                  <div>
+                    <h4 className="text-sm font-semibold text-white">Prisma Studio GUI</h4>
+                    <p className="text-xs text-slate-400 mt-1">
+                      Ouvrez le visualiseur direct PostgreSQL en exécutant dans le terminal :
+                    </p>
+                    <code className="text-accent-300 block bg-black/60 p-1.5 rounded text-[11px] font-mono mt-1">
+                      npm run db:studio
+                    </code>
+                  </div>
+                  <a
+                    href="http://localhost:5555"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-xs font-mono text-slate-400 hover:text-white flex items-center gap-1.5 justify-end"
+                  >
+                    <span>Ouvrir localhost:5555</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                </div>
+
+              </div>
+            </div>
+          )}
+
+          {/* TAB 3: User Management Section */}
+          {activeAdminTab === 'users' && (
+            <div className="glass-surface p-6 rounded-2xl border border-white/[0.08] space-y-5">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-white/[0.08]">
               <div>
                 <h3 className="text-base font-bold text-white editorial-title">
@@ -434,9 +492,10 @@ export default function AdminDashboardPage() {
             )}
 
           </div>
+        )}
 
-        </div>
       </div>
-    </>
-  );
+    </div>
+  </>
+);
 }

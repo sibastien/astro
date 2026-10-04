@@ -6,6 +6,11 @@ import HoroscopeSignPage from '@/pages/HoroscopeSignPage';
 import ZodiacPage from '@/pages/ZodiacPage';
 import ArticlesPage from '@/pages/ArticlesPage';
 import ArticlePage from '@/pages/ArticlePage';
+import BlogPage from '@/pages/BlogPage';
+import BlogPostPage from '@/pages/BlogPostPage';
+import BlogCategoryPage from '@/pages/BlogCategoryPage';
+import BlogTagPage from '@/pages/BlogTagPage';
+import BlogSearchPage from '@/pages/BlogSearchPage';
 import LoginPage from '@/pages/LoginPage';
 import RegisterPage from '@/pages/RegisterPage';
 import NotFoundPage from '@/pages/NotFoundPage';
@@ -31,8 +36,18 @@ export default function App() {
         <Route path="/horoscope" element={<HoroscopePage />} />
         <Route path="/horoscope/:slug" element={<HoroscopeSignPage />} />
         <Route path="/signes-du-zodiaque" element={<ZodiacPage />} />
+        
+        {/* WordPress-like Blog Section */}
+        <Route path="/blog" element={<BlogPage />} />
+        <Route path="/blog/recherche" element={<BlogSearchPage />} />
+        <Route path="/blog/categorie/:slug" element={<BlogCategoryPage />} />
+        <Route path="/blog/tag/:slug" element={<BlogTagPage />} />
+        <Route path="/blog/:slug" element={<BlogPostPage />} />
+
+        {/* Editorial Articles (Legacy) */}
         <Route path="/articles" element={<ArticlesPage />} />
         <Route path="/articles/:slug" element={<ArticlePage />} />
+        
         <Route path="/tarot" element={<TarotPage />} />
         <Route path="/lune" element={<LunePage />} />
         <Route path="/compatibilite" element={<CompatibilitePage />} />
